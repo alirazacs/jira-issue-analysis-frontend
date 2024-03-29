@@ -1,21 +1,33 @@
-
 <div class="flex flex-column align-items-center">
   <h2>Source System Details</h2>
-  <div >
-    <label class="block text-sm">Source Url <span class="asterik">*</span></label>
+  <div class="flex flex-column w-4 pb-2">
+    <label class="block text-sm pb-1">Source Url&nbsp;<span class="asterik">*</span></label>
     <input type="text" pInputText />
-  
+
   </div>
 
-    
-  <div>
-    <label class="block text-sm">Username <span class="asterik">*</span></label>
-    <input  type="text" pInputText />
-  
+  <div class="flex flex-column w-4 pb-2">
+    <label class="block text-sm pb-1">Username&nbsp;<span class="asterik">*</span></label>
+    <input type="text" pInputText />
+
   </div>
-  <div>
-    <label class="block text-sm">API Token <span class="asterik">*</span></label>
-    <input   type="text" pInputText />
-  
+  <div class="flex flex-column w-4 pb-2">
+    <label class="block text-sm pb-1">API Token&nbsp;<span class="asterik">*</span></label>
+    <input type="text" pInputText />
   </div>
+  <h2>Map Custom Fields</h2>
+  <div class="flex flex-column w-4 pb-2">
+    <label class="block text-sm pb-1">TeamBoard&nbsp;<span class="asterik">*</span></label>
+    <p-dropdown [options]="customFieldsDrpdwnValues" [(ngModel)]="selectedCustomField" optionLabel="name" ></p-dropdown>
+
+  </div>
+  <div class="flex flex-column w-4 pb-2">
+    <label class="block text-sm pb-1">Story Points&nbsp;<span class="asterik">*</span></label>
+    <p-dropdown [options]="customFieldsDrpdwnValues" [(ngModel)]="selectedCustomField" optionLabel="name"></p-dropdown>
+
+  </div>
+
+
+  <p-button label="Submit"></p-button>
+
 </div>

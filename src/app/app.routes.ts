@@ -4,7 +4,9 @@ import { SourceSystemDetailsComponent } from './source-system-details/source-sys
 
 export const routes: Routes = [
   {
-    path: "", redirectTo: "/source-details",pathMatch:"full"
+    path: "", redirectTo: "/source-details", pathMatch: "full"
   },
-  { path: "source-details", component: SourceSystemDetailsComponent }
+  { path: "source-details", component: SourceSystemDetailsComponent },
+  { path: "issue-analysis", component: IssueAnalysisComponent },
+
 ];
