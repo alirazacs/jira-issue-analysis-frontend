@@ -3,6 +3,8 @@ import { IssueAnalysisComponent } from './issue-analysis/issue-analysis.componen
 import { SourceSystemDetailsComponent } from './source-system-details/source-system-details.component';
 
 export const routes: Routes = [
-
-  {path:"",component:SourceSystemDetailsComponent}
+  {
+    path: "", redirectTo: "/source-details",pathMatch:"full"
+  },
+  { path: "source-details", component: SourceSystemDetailsComponent }
 ];
