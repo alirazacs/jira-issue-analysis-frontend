@@ -1,1 +1,8 @@
 <h3>Issue Analysis</h3>
+
+
+  <div *ngIf="issuesFetched" echarts [options]="chartOption"  class="demo-chart"></div>
+
+
+
+<div *ngIf="!issuesFetched">We are loading data. Please wait...</div>

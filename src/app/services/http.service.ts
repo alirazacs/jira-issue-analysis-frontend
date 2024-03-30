@@ -13,8 +13,8 @@ export class HttpService{
     return this.httpClient.get(url);
   }
 
-  fetchIssuesAgainstFixVersion():Observable<any>{
-   return this.httpClient.get<any>(this.url+"1.9.6.20");  
+  fetchIssuesAgainstFixVersion(fixVersion:string):Observable<any>{
+   return this.httpClient.get<any>(this.url+fixVersion);  
   }
 
 }
