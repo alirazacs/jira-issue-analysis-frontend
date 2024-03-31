@@ -14,7 +14,7 @@ export class HttpService{
   }
 
   fetchIssuesAgainstFixVersion(fixVersion:string):Observable<any>{
-   return this.httpClient.get<any>(this.url+fixVersion);  
-  }
+    return this.httpClient.get<any>(this.url + 'api/Issue/allIssues/' + fixVersion);
+   }
 
 }
