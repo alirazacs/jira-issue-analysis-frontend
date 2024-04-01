@@ -22,8 +22,11 @@ import { AppEffects } from './app.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { loadingStatesReducers } from './loading-states.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 const reducers : ActionReducerMap<AppState> = {
-  sourceCredentials: sourceReducer
+  sourceCredentials: sourceReducer,
+  loadingStates: loadingStatesReducers
 };
 
 @NgModule({
@@ -51,7 +54,11 @@ const reducers : ActionReducerMap<AppState> = {
       StoreModule.forRoot(reducers),
       EffectsModule.forRoot([
         AppEffects
-      ])
+      ]),
+      StoreDevtoolsModule.instrument({
+        maxAge: 25, // Retains last 25 states
+        logOnly: false, // Restrict extension to log-only mode
+      }),
     ],
     bootstrap:[AppComponent]
 })

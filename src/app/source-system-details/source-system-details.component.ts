@@ -1,9 +1,15 @@
 import { Store } from '@ngrx/store';
 import { AppState } from '../app-states';
 import { SourceCredentials } from './../models/ProjectSource';
-import { Component, OnInit } from '@angular/core';
-import { postSourceDetails } from '../app.actions';
+import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { postSourceDetails, setSourceDetailsLoadingState } from '../app.actions';
 import { MessageService } from 'primeng/api';
+import { validateEmail, validateUrl } from '../services/helper-function';
+import { ToastService } from '../services/toast.service';
+import { LoadingState } from '../models/Issue';
+import { selectLoadingStates } from '../loading-states.selector';
+import { Subscription } from 'rxjs';
+import { Stepper } from 'primeng/stepper';
 interface City {
   name: string;
   code: string;
@@ -16,19 +22,28 @@ interface City {
 export class SourceSystemDetailsComponent implements OnInit {
 
   selectedCustomField: string = "abc";
-
-  customFieldsDrpdwnValues:any;
+  subscription = new Subscription();
+  customFieldsDrpdwnValues: any;
   cities: City[] | undefined;
   selectedCity: City | undefined;
-  sourceCredentials: SourceCredentials ={
-    Id : 0,
-    SourceAuthToken:'',
-    SourceUserEmail:'',
-    SourceURL:''
+  sourceCredentials: SourceCredentials = {
+    Id: 0,
+    SourceAuthToken: '',
+    SourceUserEmail: '',
+    SourceURL: ''
   };
-  constructor(private store:Store<AppState>, private messageService: MessageService) { }
+
+  nextCallBackEvent: EventEmitter<any> | undefined;
+  constructor(private store: Store<AppState>, private toastService: ToastService) { }
 
   ngOnInit(): void {
+
+    const loadingStates$ = this.store.pipe(selectLoadingStates);
+    this.subscription.add(loadingStates$.subscribe(loadingState => {
+      if (loadingState.saveCredetialsLoadingState == LoadingState.DONE) {
+        this.navigateToNextStep();
+      }
+    }));
 
     this.cities = [
       { name: 'New York', code: 'NY' },
@@ -42,18 +57,30 @@ export class SourceSystemDetailsComponent implements OnInit {
         id: 1,
         name: "Vitara Brezza",
         val: "VITARA"
-    },
-    {
+      },
+      {
         id: 2,
         name: "Mahindra Thar",
         val: "THAR"
-    },
+      },
     ]
   }
-  submitSourceDetails()
-  {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
-    //this.store.dispatch(postSourceDetails({sourceDetails: this.sourceCredentials}));
-    console.log(this.sourceCredentials);
+  submitSourceDetails(nextCallback: EventEmitter<any>) {
+    if (!validateEmail(this.sourceCredentials.SourceUserEmail)) {
+      this.toastService.showToastMessage('error', 'Error!', 'Invalid User Email');
+      return;
+    }
+    else if (!validateUrl(this.sourceCredentials.SourceURL)) {
+      this.toastService.showToastMessage('error', 'Error!', 'Invalid Source URL');
+      return;
+    }
+    this.nextCallBackEvent = nextCallback;
+    this.store.dispatch(postSourceDetails({ sourceDetails: this.sourceCredentials }));
+  }
+
+  navigateToNextStep() {
+    if (this.nextCallBackEvent) {
+      this.nextCallBackEvent.emit();
+    }
   }
 }

@@ -6,6 +6,6 @@ export interface Issue{
   storyPoints:number;
 }
 
-export enum LoadingStates{
+export enum LoadingState{
   PENDING, LOADING, DONE, ERROR
 }

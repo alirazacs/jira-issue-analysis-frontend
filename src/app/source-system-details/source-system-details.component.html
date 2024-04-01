@@ -53,7 +53,7 @@
           <div class="text-center m-2">
             <button pButton pRipple label="Submit Source Details"
              class="p-button-success text-center"
-              (click)="submitSourceDetails()"
+              (click)="submitSourceDetails(nextCallback)"
                [disabled]="sourceCredentials.SourceAuthToken == '' || sourceCredentials.SourceURL == '' || sourceCredentials.SourceUserEmail == ''"></button>
           </div>
         </ng-template>
