@@ -23,14 +23,14 @@ export class IssueAnalysisComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.httpService.fetchIssuesAgainstFixVersion("1.9.6.x").subscribe(data => {
+    this.httpService.fetchIssuesAgainstFixVersion("1.9.6.20").subscribe(data => {
 
       this.issues = data.issues;
       this.issueIds = this.issues.map((issue: { id: any; }) => issue.id);
       this.timeSpentOnIssueIds = this.issues.map(issue => issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays);
       this.storyPointsOnIssue = this.issues.map(issue => issue.storyPoints);
       this.timeSpentToStoryPointsRatio = this.timeSpentOnIssueIds.map((ts, index) => {
-        return this.storyPointsOnIssue[index] > 0 ? ts / this.storyPointsOnIssue[index] : 0;
+        return ts > 0 ?  this.storyPointsOnIssue[index] / ts : 0;
       });
       this.issuesFetched = true;
       this.populateChart();
@@ -67,14 +67,12 @@ export class IssueAnalysisComponent implements OnInit {
           name: "Time Spent",
           data: [...this.timeSpentOnIssueIds],
           itemStyle: { color: 'green' },
-
           type: 'bar',
         },
         {
           name: "Story Points",
           data: [...this.storyPointsOnIssue],
           itemStyle: { color: 'red' },
-
           type: 'bar',
         },
       ],
@@ -109,13 +107,17 @@ export class IssueAnalysisComponent implements OnInit {
         {
           name: "Time Spent to Story Points ratio",
           data: [...this.timeSpentToStoryPointsRatio],
-          itemStyle: { color: 'orange' },
+          itemStyle: { color: (seriesIndex : any)=>{return this.decideColorBasedOnRatio(seriesIndex)} },
           type: 'bar',
         },
       ],
     };
 
 
+  }
+  
+  decideColorBasedOnRatio(index: any){
+    return index.value < 1 ? "red" : "green";
   }
 
 
