@@ -19,7 +19,6 @@ export class AppEffects {
   postSourceDetails(action: any): Observable<SourceCredentials> {
     const url = ApiUrls.SOURCE_DETAILS;
     const params = action.sourceDetails;
-    console.log(action);
     return <any>this.httpService.apiPostRequest(url, params).pipe(catchError(error => {
       console.log(error);
       return of(this.store.dispatch(fetchError()));
@@ -27,7 +26,6 @@ export class AppEffects {
   }
 
   dispatchSourceDetails(response:SourceCredentials){
-    console.log("Response:", response);
     if(!response)
     {
       return fetchError();

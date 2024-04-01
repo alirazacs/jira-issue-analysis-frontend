@@ -20,6 +20,8 @@ import { sourceReducer } from './source.reducers';
 import { AppState } from './app-states';
 import { AppEffects } from './app.effects';
 import { EffectsModule } from '@ngrx/effects';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 const reducers : ActionReducerMap<AppState> = {
   sourceCredentials: sourceReducer
 };
@@ -30,7 +32,7 @@ const reducers : ActionReducerMap<AppState> = {
         SourceSystemDetailsComponent,
         IssueAnalysisComponent
     ],
-    providers: [HttpService],
+    providers: [HttpService, MessageService],
     imports: [
       BrowserModule,
       DropdownModule,
@@ -41,6 +43,7 @@ const reducers : ActionReducerMap<AppState> = {
       AppRoutingModule,
       HttpClientModule,
       BrowserAnimationsModule,
+      ToastModule,
       NgxEchartsModule.forRoot({
         echarts: () => import('echarts')
       }),

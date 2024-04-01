@@ -3,6 +3,7 @@ import { AppState } from '../app-states';
 import { SourceCredentials } from './../models/ProjectSource';
 import { Component, OnInit } from '@angular/core';
 import { postSourceDetails } from '../app.actions';
+import { MessageService } from 'primeng/api';
 interface City {
   name: string;
   code: string;
@@ -25,7 +26,7 @@ export class SourceSystemDetailsComponent implements OnInit {
     SourceUserEmail:'',
     SourceURL:''
   };
-  constructor(private store:Store<AppState>) { }
+  constructor(private store:Store<AppState>, private messageService: MessageService) { }
 
   ngOnInit(): void {
 
@@ -51,7 +52,8 @@ export class SourceSystemDetailsComponent implements OnInit {
   }
   submitSourceDetails()
   {
-    this.store.dispatch(postSourceDetails({sourceDetails: this.sourceCredentials}));
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
+    //this.store.dispatch(postSourceDetails({sourceDetails: this.sourceCredentials}));
     console.log(this.sourceCredentials);
   }
 }
