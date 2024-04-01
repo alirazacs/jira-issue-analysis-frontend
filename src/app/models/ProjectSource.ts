@@ -1,4 +1,4 @@
-export interface ProjectSource{
+export interface SourceProject{
   Id: string,
   Name: string,
   Key: string

@@ -25,7 +25,7 @@ import { MessageService } from 'primeng/api';
 import { loadingStatesReducers } from './loading-states.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 const reducers : ActionReducerMap<AppState> = {
-  sourceCredentials: sourceReducer,
+  appData: sourceReducer,
   loadingStates: loadingStatesReducers
 };
 

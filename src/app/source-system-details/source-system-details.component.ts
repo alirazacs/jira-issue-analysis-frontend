@@ -2,7 +2,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../app-states';
 import { SourceCredentials } from './../models/ProjectSource';
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
-import { postSourceDetails, setSourceDetailsLoadingState } from '../app.actions';
+import { fetchSourceProjects, postSourceDetails, setSourceDetailsLoadingState } from '../app.actions';
 import { MessageService } from 'primeng/api';
 import { validateEmail, validateUrl } from '../services/helper-function';
 import { ToastService } from '../services/toast.service';
@@ -39,11 +39,14 @@ export class SourceSystemDetailsComponent implements OnInit {
   ngOnInit(): void {
 
     const loadingStates$ = this.store.pipe(selectLoadingStates);
+
     this.subscription.add(loadingStates$.subscribe(loadingState => {
       if (loadingState.saveCredetialsLoadingState == LoadingState.DONE) {
+        this.store.dispatch(fetchSourceProjects());
         this.navigateToNextStep();
       }
     }));
+
 
     this.cities = [
       { name: 'New York', code: 'NY' },

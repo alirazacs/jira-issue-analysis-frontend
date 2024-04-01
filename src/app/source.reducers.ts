@@ -1,19 +1,22 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { postSourceDetails, setSourceDetails } from './app.actions';
+import { postSourceDetails, setSourceDetails, setSourceProjects } from './app.actions';
 import { SourceCredentials } from './models/ProjectSource';
+import { AppData, defaultAppDate } from './app-states';
 
-export const initialState = {
-  Id:0,
-  SourceURL: '',
-  SourceUserEmail: '',
-  SourceAuthToken: ''
-};
+
 
 const sourceCredentialsReducer = createReducer(
-  initialState,
-  on(setSourceDetails, (state, { sourceDetails }) => sourceDetails)
+  defaultAppDate,
+  on(setSourceDetails, (state, { sourceDetails }) => ({
+    ...state,
+    sourceCredentials: sourceDetails ,
+  })),
+  on(setSourceProjects, (state, { sourceProjects }) => ({
+    ...state,
+    sourceProjects: sourceProjects,
+  })),
 );
 
-export function sourceReducer(state: SourceCredentials | undefined, action: Action) {
+export function sourceReducer(state: AppData | undefined, action: Action) {
   return sourceCredentialsReducer(state, action);
 }
