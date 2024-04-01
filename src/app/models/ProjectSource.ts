@@ -1,25 +1,26 @@
 
 export interface SourceProject {
-  Id: string,
-  Name: string,
-  Key: string,
+  id: string,
+  name: string,
+  key: string,
 };
 
 export interface SourceCredentials {
-  Id: number,
-  SourceURL: string,
-  SourceUserEmail: string,
-  SourceAuthToken: string
+  id: number,
+  sourceURL: string,
+  sourceUserEmail: string,
+  sourceAuthToken: string
 };
 
 export interface CustomField {
-  Id: number;
-  CustomFieldKey: string;
-  CustomFieldValue: string;
+  id: number;
+  customFieldKey: string;
+  customFieldValue: string;
 }
 export interface SourceFieldsResponse {
   sourceCustomFields: CustomField[];
-  userCustomFields: CustomField[];
-  sourceProject: SourceProject[];
+  teamBoardCustomField?: CustomField;
+  storyPointsCustomField?: CustomField;
+  sourceProjects: SourceProject[];
   userProject?: SourceProject;
 }

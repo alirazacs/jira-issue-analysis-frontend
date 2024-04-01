@@ -1,6 +1,6 @@
 import { Store } from '@ngrx/store';
 import { AppState } from '../app-states';
-import { SourceCredentials, SourceFieldsResponse, SourceProject } from './../models/ProjectSource';
+import { CustomField, SourceCredentials, SourceFieldsResponse, SourceProject } from './../models/ProjectSource';
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { fetchSourceProjectsAndCustomFields, postSourceDetails, setSourceDetailsLoadingState } from '../app.actions';
 import { MessageService } from 'primeng/api';
@@ -22,16 +22,17 @@ export class SourceSystemDetailsComponent implements OnInit {
   customFieldsDrpdwnValues: any;
   sourceFields: SourceFieldsResponse = {
     sourceCustomFields: [],
-    userCustomFields: [],
-    sourceProject: [],
+    teamBoardCustomField: undefined,
+    storyPointsCustomField: undefined,
+    sourceProjects: [],
     userProject: undefined
 };
   selectedProject: SourceProject | undefined;
   sourceCredentials: SourceCredentials = {
-    Id: 0,
-    SourceAuthToken: '',
-    SourceUserEmail: '',
-    SourceURL: ''
+    id: 0,
+    sourceAuthToken: '',
+    sourceUserEmail: '',
+    sourceURL: ''
   };
 
   nextCallBackEvent: EventEmitter<any> | undefined;
@@ -70,11 +71,11 @@ export class SourceSystemDetailsComponent implements OnInit {
     ]
   }
   submitSourceDetails(nextCallback: EventEmitter<any>) {
-    if (!validateEmail(this.sourceCredentials.SourceUserEmail)) {
+    if (!validateEmail(this.sourceCredentials.sourceUserEmail)) {
       this.toastService.showToastMessage('error', 'Error!', 'Invalid User Email');
       return;
     }
-    else if (!validateUrl(this.sourceCredentials.SourceURL)) {
+    else if (!validateUrl(this.sourceCredentials.sourceURL)) {
       this.toastService.showToastMessage('error', 'Error!', 'Invalid Source URL');
       return;
     }
@@ -86,6 +87,13 @@ export class SourceSystemDetailsComponent implements OnInit {
     if (this.nextCallBackEvent) {
       this.nextCallBackEvent.emit();
     }
+  }
+
+  filterCustomFields(customFields: CustomField[], otherCustomField?: CustomField) : CustomField[] {
+    if (!otherCustomField) {
+      return customFields;
+    }
+    return customFields.filter(customField => customField.customFieldValue !== otherCustomField.customFieldValue);
   }
 
 }

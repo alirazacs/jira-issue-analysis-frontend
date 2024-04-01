@@ -19,15 +19,16 @@ export interface AppData{
 
 export const defaultAppDate: AppData = {
   sourceCredentials: {
-    Id: 0,
-    SourceAuthToken: '',
-    SourceURL: '',
-    SourceUserEmail: ''
+    id: 0,
+    sourceAuthToken: '',
+    sourceURL: '',
+    sourceUserEmail: ''
   },
   sourceFields:{
     sourceCustomFields: [],
-    userCustomFields: [],
-    sourceProject: [],
+    storyPointsCustomField: undefined,
+    teamBoardCustomField: undefined,
+    sourceProjects: [],
     userProject: undefined
   }
 }
