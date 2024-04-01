@@ -3,6 +3,7 @@ import { SourceCredentials, SourceFieldsResponse, SourceProject } from './models
 import { LoadingState } from './models/Issue';
 
 export const setSourceDetails = createAction('[setSourceDetails] Set Source URL', props<{ sourceDetails: SourceCredentials }>());
+export const fetchSourceDetails = createAction('[fetchSourceDetails] Fetch Source Details');
 export const postSourceDetails = createAction('[postSourceDetails] Post Source URL', props<{ sourceDetails: SourceCredentials }>());
 export const fetchError = createAction('[fetchError] FetchError');
 export const fetchSourceProjectsAndCustomFields = createAction('[fetchSourceProjectsAndCustomFields] Fetch Source Projects And Custom Fields');

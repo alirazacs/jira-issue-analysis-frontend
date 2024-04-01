@@ -2,13 +2,13 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../app-states';
 import { CustomField, SourceCredentials, SourceFieldsResponse, SourceProject } from './../models/ProjectSource';
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
-import { fetchSourceProjectsAndCustomFields, postSourceDetails, setSourceDetailsLoadingState } from '../app.actions';
+import { fetchSourceDetails, fetchSourceProjectsAndCustomFields, postSourceDetails, setSourceDetailsLoadingState } from '../app.actions';
 import { MessageService } from 'primeng/api';
 import { validateEmail, validateUrl } from '../services/helper-function';
 import { ToastService } from '../services/toast.service';
 import { LoadingState } from '../models/Issue';
-import { selectLoadingStates, selectSourceProjects } from '../loading-states.selector';
-import { Subscription } from 'rxjs';
+import { selectLoadingStates, selectSourceCredentials, selectSourceProjects } from '../loading-states.selector';
+import { Subscription, combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-source-system-details',
@@ -42,10 +42,14 @@ export class SourceSystemDetailsComponent implements OnInit {
 
     const loadingStates$ = this.store.pipe(selectLoadingStates);
     const sourceProjects$ = this.store.pipe(selectSourceProjects);
+    const sourceCredentials$ = this.store.pipe(selectSourceCredentials);
+    this.store.dispatch(fetchSourceDetails());
 
-    this.subscription.add(sourceProjects$.subscribe(sourceFields => {
+    this.subscription.add(combineLatest([sourceProjects$, sourceCredentials$])
+    .subscribe(([sourceFields, sourceCredentials])=>{
       this.sourceFields = sourceFields;
-    }));
+      this.sourceCredentials = sourceCredentials;
+    }))
 
     this.subscription.add(loadingStates$.subscribe(loadingState => {
       if (loadingState.saveCredetialsLoadingState == LoadingState.DONE) {

@@ -9,7 +9,8 @@ export const initialState = {
 
 const loadingStatesReducer = createReducer(
   initialState,
-  on(setSourceDetailsLoadingState, (state, { loadingState }) => ({...state, saveCredetialsLoadingState: loadingState}))
+  on(setSourceDetailsLoadingState, (state, { loadingState }) => ({...state, saveCredetialsLoadingState: loadingState})),
+
 );
 
 export function loadingStatesReducers(state: LoadingStates | undefined, action: Action) {

@@ -12,6 +12,11 @@ const sourceProjectsSelector = createSelector(
   (appState: AppData) => appState.sourceFields
 );
 
+const sourceCredentialsSelector = createSelector(
+  (state: AppState) => state.appData,
+  (appState: AppData) => appState.sourceCredentials
+);
+
 
 export const selectLoadingStates = pipe(
   select(loadingStateSelector)
@@ -20,4 +25,8 @@ export const selectLoadingStates = pipe(
 export const selectSourceProjects = pipe(
   select(sourceProjectsSelector),
   filter(project => project != null)
-)
+);
+
+export const selectSourceCredentials = pipe(
+  select(sourceCredentialsSelector)
+);
