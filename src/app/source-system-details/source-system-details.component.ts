@@ -1,19 +1,15 @@
 import { Store } from '@ngrx/store';
 import { AppState } from '../app-states';
-import { SourceCredentials } from './../models/ProjectSource';
+import { SourceCredentials, SourceFieldsResponse, SourceProject } from './../models/ProjectSource';
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
-import { fetchSourceProjects, postSourceDetails, setSourceDetailsLoadingState } from '../app.actions';
+import { fetchSourceProjectsAndCustomFields, postSourceDetails, setSourceDetailsLoadingState } from '../app.actions';
 import { MessageService } from 'primeng/api';
 import { validateEmail, validateUrl } from '../services/helper-function';
 import { ToastService } from '../services/toast.service';
 import { LoadingState } from '../models/Issue';
-import { selectLoadingStates } from '../loading-states.selector';
+import { selectLoadingStates, selectSourceProjects } from '../loading-states.selector';
 import { Subscription } from 'rxjs';
-import { Stepper } from 'primeng/stepper';
-interface City {
-  name: string;
-  code: string;
-}
+
 @Component({
   selector: 'app-source-system-details',
   templateUrl: './source-system-details.component.html',
@@ -24,8 +20,13 @@ export class SourceSystemDetailsComponent implements OnInit {
   selectedCustomField: string = "abc";
   subscription = new Subscription();
   customFieldsDrpdwnValues: any;
-  cities: City[] | undefined;
-  selectedCity: City | undefined;
+  sourceFields: SourceFieldsResponse = {
+    sourceCustomFields: [],
+    userCustomFields: [],
+    sourceProject: [],
+    userProject: undefined
+};
+  selectedProject: SourceProject | undefined;
   sourceCredentials: SourceCredentials = {
     Id: 0,
     SourceAuthToken: '',
@@ -39,22 +40,22 @@ export class SourceSystemDetailsComponent implements OnInit {
   ngOnInit(): void {
 
     const loadingStates$ = this.store.pipe(selectLoadingStates);
+    const sourceProjects$ = this.store.pipe(selectSourceProjects);
+
+    this.subscription.add(sourceProjects$.subscribe(sourceFields => {
+      this.sourceFields = sourceFields;
+    }));
 
     this.subscription.add(loadingStates$.subscribe(loadingState => {
       if (loadingState.saveCredetialsLoadingState == LoadingState.DONE) {
-        this.store.dispatch(fetchSourceProjects());
+        this.store.dispatch(fetchSourceProjectsAndCustomFields());
         this.navigateToNextStep();
       }
     }));
 
 
-    this.cities = [
-      { name: 'New York', code: 'NY' },
-      { name: 'Rome', code: 'RM' },
-      { name: 'London', code: 'LDN' },
-      { name: 'Istanbul', code: 'IST' },
-      { name: 'Paris', code: 'PRS' },
-    ];
+    this.store.dispatch(fetchSourceProjectsAndCustomFields());
+
     this.customFieldsDrpdwnValues = [
       {
         id: 1,
@@ -86,4 +87,5 @@ export class SourceSystemDetailsComponent implements OnInit {
       this.nextCallBackEvent.emit();
     }
   }
+
 }

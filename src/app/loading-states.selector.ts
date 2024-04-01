@@ -9,7 +9,7 @@ const loadingStateSelector = createSelector(
 
 const sourceProjectsSelector = createSelector(
   (state: AppState) => state.appData,
-  (appState: AppData) => appState.sourceProjects
+  (appState: AppData) => appState.sourceFields
 );
 
 

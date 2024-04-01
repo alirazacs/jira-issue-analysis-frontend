@@ -35,7 +35,7 @@
 <div class="card mt-5 border-round-md">
   <h3 class="text-center">Configure Project Source</h3>
   <div class="flex justify-content-center mt-5">
-    <p-stepper >
+    <p-stepper>
       <p-stepperPanel header="Project Source Details">
         <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
           <div class="flex flex-column w-full pb-2 m-2">
@@ -44,36 +44,43 @@
           </div>
           <div class="flex flex-column w-full pb-2 m-2">
             <label class="block text-sm pb-1">User Email&nbsp;<span class="asterik">*</span></label>
-            <input type="text" [(ngModel)]="sourceCredentials.SourceUserEmail" pInputText required/>
+            <input type="text" [(ngModel)]="sourceCredentials.SourceUserEmail" pInputText required />
           </div>
           <div class="flex flex-column w-full pb-2 m-2">
             <label class="block text-sm pb-1">API Token&nbsp;<span class="asterik">*</span></label>
-            <input type="text" [(ngModel)]="sourceCredentials.SourceAuthToken" pInputText required/>
+            <input type="text" [(ngModel)]="sourceCredentials.SourceAuthToken" pInputText required />
           </div>
           <div class="text-center m-2">
-            <button pButton pRipple label="Submit Source Details"
-             class="p-button-success text-center"
+            <button pButton pRipple label="Submit Source Details" class="p-button-primary text-center"
               (click)="submitSourceDetails(nextCallback)"
-               [disabled]="sourceCredentials.SourceAuthToken == '' || sourceCredentials.SourceURL == '' || sourceCredentials.SourceUserEmail == ''"></button>
+              [disabled]="sourceCredentials.SourceAuthToken == '' || sourceCredentials.SourceURL == '' || sourceCredentials.SourceUserEmail == ''"></button>
           </div>
+
+          <div class="flex pt-4 justify-content-end">
+            <p-button label="Next" icon="pi pi-arrow-right" (onClick)="nextCallback.emit()" />
+          </div>
+
         </ng-template>
       </p-stepperPanel>
 
-      <p-stepperPanel header="Project Details">
+      <p-stepperPanel header="Project and Custom fields">
         <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
           let-index="index">
           <div class="flex flex-column w-full pb-2 m-2">
             <label class="block text-sm pb-1">Select Project&nbsp;<span class="asterik">*</span></label>
-            <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name" placeholder="Select a City" ngClass="w-full"></p-dropdown>
+
+            <p-dropdown [options]="sourceFields.sourceProject" [(ngModel)]="selectedProject" emptyMessage="No source projects found"
+              placeholder="Select Project" optionLabel="name" autoWidth="false" [style]="{'width':'100%'}">
+            </p-dropdown>
+
           </div>
           <div class="flex pt-4 justify-content-between">
             <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
-            <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" />
           </div>
         </ng-template>
       </p-stepperPanel>
 
-      <p-stepperPanel header="Header III">
+      <!-- <p-stepperPanel header="Header III">
         <ng-template pTemplate="content" let-prevCallback="prevCallback" let-index="index">
           <div class="flex flex-column h-12rem">
             <div
@@ -84,7 +91,7 @@
             <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
           </div>
         </ng-template>
-      </p-stepperPanel>
+      </p-stepperPanel> -->
 
     </p-stepper>
 

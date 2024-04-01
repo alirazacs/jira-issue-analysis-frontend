@@ -1,5 +1,5 @@
 import { LoadingState } from "./models/Issue";
-import { SourceCredentials, SourceProject } from "./models/ProjectSource";
+import { SourceCredentials, SourceFieldsResponse, SourceProject } from "./models/ProjectSource";
 
 export interface AppState{
   appData: AppData,
@@ -13,7 +13,7 @@ export interface LoadingStates{
 
 export interface AppData{
   sourceCredentials: SourceCredentials,
-  sourceProjects: SourceProject[]
+  sourceFields: SourceFieldsResponse
 }
 
 
@@ -24,6 +24,11 @@ export const defaultAppDate: AppData = {
     SourceURL: '',
     SourceUserEmail: ''
   },
-  sourceProjects: []
+  sourceFields:{
+    sourceCustomFields: [],
+    userCustomFields: [],
+    sourceProject: [],
+    userProject: undefined
+  }
 }
 

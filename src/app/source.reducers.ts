@@ -1,5 +1,5 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { postSourceDetails, setSourceDetails, setSourceProjects } from './app.actions';
+import { postSourceDetails, setSourceDetails, setSourceProjectsAndCustomFields } from './app.actions';
 import { SourceCredentials } from './models/ProjectSource';
 import { AppData, defaultAppDate } from './app-states';
 
@@ -11,9 +11,9 @@ const sourceCredentialsReducer = createReducer(
     ...state,
     sourceCredentials: sourceDetails ,
   })),
-  on(setSourceProjects, (state, { sourceProjects }) => ({
+  on(setSourceProjectsAndCustomFields, (state, { sourceFields }) => ({
     ...state,
-    sourceProjects: sourceProjects,
+    sourceFields: sourceFields
   })),
 );
 
