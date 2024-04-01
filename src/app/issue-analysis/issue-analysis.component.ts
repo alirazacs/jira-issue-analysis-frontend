@@ -30,7 +30,7 @@ export class IssueAnalysisComponent implements OnInit {
       this.timeSpentOnIssueIds = this.issues.map(issue => issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays);
       this.storyPointsOnIssue = this.issues.map(issue => issue.storyPoints);
       this.timeSpentToStoryPointsRatio = this.timeSpentOnIssueIds.map((ts, index) => {
-        return ts > 0 ?  this.storyPointsOnIssue[index] / 2 : 0;
+        return ts > 0 ?  this.storyPointsOnIssue[index] / ts : 0;
       });
       this.issuesFetched = true;
       this.populateChart();
