@@ -1,17 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../services/http.service';
-import { CommonModule } from '@angular/common';
-import { InputTextModule } from 'primeng/inputtext';
 import { Issue } from '../models/Issue';
 import { EChartsOption } from 'echarts';
-import { NgxEchartsDirective } from 'ngx-echarts';
-
-
 
 @Component({
   selector: 'app-issue-analysis',
-  standalone: true,
-  imports: [CommonModule, InputTextModule,NgxEchartsDirective],
   templateUrl: './issue-analysis.component.html',
   styleUrl: './issue-analysis.component.css'
 })
@@ -22,12 +15,6 @@ export class IssueAnalysisComponent implements OnInit {
   storyPointsOnIssue: number[] = [];
   issuesFetched = false;
   chartOption :EChartsOption={};
-
-
-// ...
-
-
-
 
   constructor(private httpService: HttpService) { }
 
@@ -84,7 +71,7 @@ export class IssueAnalysisComponent implements OnInit {
         },
       ],
     };
-    
+
   }
   getFormattedTooltipText(params: any) {
     var tooltip = '<div style="width:fit-content;white-space:normal;">' + params[0].name + "<br/>";

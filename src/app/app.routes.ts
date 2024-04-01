@@ -1,8 +1,9 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { IssueAnalysisComponent } from './issue-analysis/issue-analysis.component';
 import { SourceSystemDetailsComponent } from './source-system-details/source-system-details.component';
+import { NgModule } from '@angular/core';
 
-export const routes: Routes = [
+const routes: Routes = [
   {
     path: "", redirectTo: "/source-details", pathMatch: "full"
   },
@@ -10,3 +11,9 @@ export const routes: Routes = [
   { path: "issue-analysis", component: IssueAnalysisComponent },
 
 ];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
