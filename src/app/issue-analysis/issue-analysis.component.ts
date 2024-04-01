@@ -14,9 +14,9 @@ export class IssueAnalysisComponent implements OnInit {
   timeSpentOnIssueIds: number[] = [];
   storyPointsOnIssue: number[] = [];
   issuesFetched = false;
-  chartOption :EChartsOption={};
-  chartOptionForRatio :EChartsOption={};
-  timeSpentToStoryPointsRatio : number[] = [];
+  chartOption: EChartsOption = {};
+  chartOptionForRatio: EChartsOption = {};
+  timeSpentToStoryPointsRatio: number[] = [];
 
 
   constructor(private httpService: HttpService) { }
@@ -29,10 +29,9 @@ export class IssueAnalysisComponent implements OnInit {
       this.issueIds = this.issues.map((issue: { id: any; }) => issue.id);
       this.timeSpentOnIssueIds = this.issues.map(issue => issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays);
       this.storyPointsOnIssue = this.issues.map(issue => issue.storyPoints);
-      this.timeSpentToStoryPointsRatio = this.timeSpentOnIssueIds.map((ts,index) => {
+      this.timeSpentToStoryPointsRatio = this.timeSpentOnIssueIds.map((ts, index) => {
         return this.storyPointsOnIssue[index] > 0 ? ts / this.storyPointsOnIssue[index] : 0;
       });
-      console.log(this.timeSpentToStoryPointsRatio);
       this.issuesFetched = true;
       this.populateChart();
       this.populateChartForRatio();
@@ -40,7 +39,7 @@ export class IssueAnalysisComponent implements OnInit {
     });
   }
 
-  populateChart(){
+  populateChart() {
     this.chartOption = {
       xAxis: {
         type: 'category',
@@ -56,8 +55,8 @@ export class IssueAnalysisComponent implements OnInit {
       tooltip: {
         show: true,
         trigger: 'axis',
-        formatter: (params:any) => {
-          return  this.getFormattedTooltipText(params);
+        formatter: (params: any) => {
+          return this.getFormattedTooltipText(params);
         },
         axisPointer: {
           type: 'shadow'
@@ -65,16 +64,16 @@ export class IssueAnalysisComponent implements OnInit {
       },
       series: [
         {
-          name:"Time Spent",
+          name: "Time Spent",
           data: [...this.timeSpentOnIssueIds],
-          itemStyle: {color: 'green'},
+          itemStyle: { color: 'green' },
 
           type: 'bar',
         },
         {
-          name:"Story Points",
+          name: "Story Points",
           data: [...this.storyPointsOnIssue],
-          itemStyle: {color: 'red'},
+          itemStyle: { color: 'red' },
 
           type: 'bar',
         },
@@ -83,7 +82,7 @@ export class IssueAnalysisComponent implements OnInit {
 
   }
 
-  populateChartForRatio(){
+  populateChartForRatio() {
     this.chartOptionForRatio = {
       xAxis: {
         type: 'category',
@@ -99,8 +98,8 @@ export class IssueAnalysisComponent implements OnInit {
       tooltip: {
         show: true,
         trigger: 'axis',
-        formatter: (params:any) => {
-          return  this.getFormattedTooltipText(params);
+        formatter: (params: any) => {
+          return this.getFormattedTooltipText(params);
         },
         axisPointer: {
           type: 'shadow'
@@ -108,9 +107,9 @@ export class IssueAnalysisComponent implements OnInit {
       },
       series: [
         {
-          name:"Time Spent to Story Points ratio",
+          name: "Time Spent to Story Points ratio",
           data: [...this.timeSpentToStoryPointsRatio],
-          itemStyle: {color: 'orange'},
+          itemStyle: { color: 'orange' },
           type: 'bar',
         },
       ],
@@ -124,11 +123,11 @@ export class IssueAnalysisComponent implements OnInit {
     var tooltip = '<div style="width:fit-content;white-space:normal;">' + params[0].name + "<br/>";
 
     for (var i = 0; i < params.length; i++) {
-        tooltip += params[i].marker + params[i].seriesName + ": ";
-        tooltip += params[i].value || "0";
-        tooltip += "<br/>";
+      tooltip += params[i].marker + params[i].seriesName + ": ";
+      tooltip += params[i].value || "0";
+      tooltip += "<br/>";
     }
 
     return tooltip + "</div>";
-}
+  }
 }
