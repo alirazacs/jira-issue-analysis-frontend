@@ -15,6 +15,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxEchartsDirective, NgxEchartsModule } from 'ngx-echarts';
 import { InputTextModule } from 'primeng/inputtext';
 import { IssueAnalysisComponent } from './issue-analysis/issue-analysis.component';
+import { ActionReducerMap, StoreModule } from '@ngrx/store';
+import { sourceReducer } from './source.reducers';
+import { AppState } from './app-states';
+import { AppEffects } from './app.effects';
+import { EffectsModule } from '@ngrx/effects';
+const reducers : ActionReducerMap<AppState> = {
+  sourceCredentials: sourceReducer
+};
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -35,8 +44,14 @@ import { IssueAnalysisComponent } from './issue-analysis/issue-analysis.componen
       NgxEchartsModule.forRoot({
         echarts: () => import('echarts')
       }),
-      InputTextModule
+      InputTextModule,
+      StoreModule.forRoot(reducers),
+      EffectsModule.forRoot([
+        AppEffects
+      ])
     ],
     bootstrap:[AppComponent]
 })
 export class AppModule { }
+
+

@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, catchError, throwError } from "rxjs";
+import { Observable, catchError, of, throwError } from "rxjs";
 import { ApiUrls } from "../apiUrls";
 
 @Injectable({providedIn:"root"})
@@ -19,6 +19,15 @@ export class HttpService{
     });
 
     return this.httpClient.get<any>(this.url + ApiUrls.ALL_ISSUES + fixVersion, { headers });
+  }
+
+
+  apiPostRequest(endPoint: string, requestParams:any) {
+    if (!endPoint) return of({});
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.httpClient.post(this.url + endPoint, requestParams, {headers });
   }
 
 

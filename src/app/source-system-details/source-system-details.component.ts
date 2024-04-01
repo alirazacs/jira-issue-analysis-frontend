@@ -1,5 +1,8 @@
+import { Store } from '@ngrx/store';
+import { AppState } from '../app-states';
 import { SourceCredentials } from './../models/ProjectSource';
 import { Component, OnInit } from '@angular/core';
+import { postSourceDetails } from '../app.actions';
 interface City {
   name: string;
   code: string;
@@ -22,7 +25,7 @@ export class SourceSystemDetailsComponent implements OnInit {
     SourceUserEmail:'',
     SourceURL:''
   };
-  constructor() { }
+  constructor(private store:Store<AppState>) { }
 
   ngOnInit(): void {
 
@@ -48,8 +51,7 @@ export class SourceSystemDetailsComponent implements OnInit {
   }
   submitSourceDetails()
   {
+    this.store.dispatch(postSourceDetails({sourceDetails: this.sourceCredentials}));
     console.log(this.sourceCredentials);
   }
-
-
 }
