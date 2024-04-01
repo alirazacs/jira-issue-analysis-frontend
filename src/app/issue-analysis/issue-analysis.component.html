@@ -1,7 +1,10 @@
 <h3>Issue Analysis</h3>
 
+
+<h5>Analysis based on story points and their time spent:</h5>
 <div *ngIf="issuesFetched" echarts [options]="chartOption"></div>
 
+<h5>Analysis based on story points/time spent ratio:</h5>
 <div *ngIf="issuesFetched" echarts [options]="chartOptionForRatio"></div>
 
 
