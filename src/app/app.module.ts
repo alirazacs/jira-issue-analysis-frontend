@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app.routes';
 import { HttpService } from './services/http.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxEchartsDirective } from 'ngx-echarts';
+import { NgxEchartsDirective, NgxEchartsModule } from 'ngx-echarts';
 import { InputTextModule } from 'primeng/inputtext';
 import { IssueAnalysisComponent } from './issue-analysis/issue-analysis.component';
 @NgModule({
@@ -32,7 +32,9 @@ import { IssueAnalysisComponent } from './issue-analysis/issue-analysis.componen
       AppRoutingModule,
       HttpClientModule,
       BrowserAnimationsModule,
-      NgxEchartsDirective,
+      NgxEchartsModule.forRoot({
+        echarts: () => import('echarts')
+      }),
       InputTextModule
     ],
     bootstrap:[AppComponent]

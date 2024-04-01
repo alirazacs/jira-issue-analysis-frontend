@@ -20,7 +20,7 @@ export class IssueAnalysisComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.httpService.fetchIssuesAgainstFixVersion("1.9.6.20").subscribe(data => {
+    this.httpService.fetchIssuesAgainstFixVersion("1.9.6.x").subscribe(data => {
 
       this.issues = data.issues;
       this.issueIds = this.issues.map((issue: { id: any; }) => issue.id);

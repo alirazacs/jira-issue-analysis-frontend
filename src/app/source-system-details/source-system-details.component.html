@@ -62,7 +62,7 @@
           let-index="index">
           <div class="flex flex-column w-full pb-2 m-2">
             <label class="block text-sm pb-1">Select Project&nbsp;<span class="asterik">*</span></label>
-            <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name" placeholder="Select a City"></p-dropdown>
+            <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name" placeholder="Select a City" ngClass="w-full"></p-dropdown>
           </div>
           <div class="flex pt-4 justify-content-between">
             <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
