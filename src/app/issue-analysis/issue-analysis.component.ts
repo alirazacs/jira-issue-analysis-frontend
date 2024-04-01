@@ -15,6 +15,9 @@ export class IssueAnalysisComponent implements OnInit {
   storyPointsOnIssue: number[] = [];
   issuesFetched = false;
   chartOption :EChartsOption={};
+  chartOptionForRatio :EChartsOption={};
+  timeSpentToStoryPointsRatio : number[] = [];
+
 
   constructor(private httpService: HttpService) { }
 
@@ -26,8 +29,14 @@ export class IssueAnalysisComponent implements OnInit {
       this.issueIds = this.issues.map((issue: { id: any; }) => issue.id);
       this.timeSpentOnIssueIds = this.issues.map(issue => issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays);
       this.storyPointsOnIssue = this.issues.map(issue => issue.storyPoints);
+      this.timeSpentToStoryPointsRatio = this.timeSpentOnIssueIds.map((ts,index) => {
+        return this.storyPointsOnIssue[index] > 0 ? ts / this.storyPointsOnIssue[index] : 0;
+      });
+      console.log(this.timeSpentToStoryPointsRatio);
       this.issuesFetched = true;
-        this.populateChart();
+      this.populateChart();
+      this.populateChartForRatio();
+
     });
   }
 
@@ -40,7 +49,7 @@ export class IssueAnalysisComponent implements OnInit {
       },
       yAxis: {
         type: 'value',
-        name: "Time Spent / Story Points(days)",
+        name: "Time Spent + Story Points(days)",
         nameLocation: 'middle',
         nameGap: 40
       },
@@ -73,6 +82,44 @@ export class IssueAnalysisComponent implements OnInit {
     };
 
   }
+
+  populateChartForRatio(){
+    this.chartOptionForRatio = {
+      xAxis: {
+        type: 'category',
+        data: [...this.issueIds],
+        axisLabel: { rotate: 90 },
+      },
+      yAxis: {
+        type: 'value',
+        name: "Time Spent / Story Points(ratio)",
+        nameLocation: 'middle',
+        nameGap: 40
+      },
+      tooltip: {
+        show: true,
+        trigger: 'axis',
+        formatter: (params:any) => {
+          return  this.getFormattedTooltipText(params);
+        },
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      series: [
+        {
+          name:"Time Spent to Story Points ratio",
+          data: [...this.timeSpentToStoryPointsRatio],
+          itemStyle: {color: 'orange'},
+          type: 'bar',
+        },
+      ],
+    };
+
+
+  }
+
+
   getFormattedTooltipText(params: any) {
     var tooltip = '<div style="width:fit-content;white-space:normal;">' + params[0].name + "<br/>";
 
