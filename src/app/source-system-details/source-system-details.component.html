@@ -35,24 +35,26 @@
 <div class="card mt-5 border-round-md">
   <h3 class="text-center">Configure Project Source</h3>
   <div class="flex justify-content-center mt-5">
-    <p-stepper>
-
+    <p-stepper [linear]="true">
       <p-stepperPanel header="Project Source Details">
         <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
           <div class="flex flex-column w-full pb-2 m-2">
-            <label class="block text-sm pb-1">Source Url&nbsp;<span class="asterik">*</span></label>
-            <input type="text" pInputText required/>
+            <label class="block text-sm pb-1">Source URL&nbsp;<span class="asterik">*</span></label>
+            <input type="text" [(ngModel)]="sourceCredentials.SourceURL" pInputText required />
           </div>
           <div class="flex flex-column w-full pb-2 m-2">
-            <label class="block text-sm pb-1">Username&nbsp;<span class="asterik">*</span></label>
-            <input type="text" pInputText required/>
+            <label class="block text-sm pb-1">User Email&nbsp;<span class="asterik">*</span></label>
+            <input type="text" [(ngModel)]="sourceCredentials.SourceUserEmail" pInputText required/>
           </div>
           <div class="flex flex-column w-full pb-2 m-2">
             <label class="block text-sm pb-1">API Token&nbsp;<span class="asterik">*</span></label>
-            <input type="text" pInputText required/>
+            <input type="text" [(ngModel)]="sourceCredentials.SourceAuthToken" pInputText required/>
           </div>
           <div class="text-center m-2">
-            <button pButton pRipple label="Submit Source Details" class="p-button-success text-center"></button>
+            <button pButton pRipple label="Submit Source Details"
+             class="p-button-success text-center"
+              (click)="submitSourceDetails()"
+               [disabled]="sourceCredentials.SourceAuthToken == '' || sourceCredentials.SourceURL == '' || sourceCredentials.SourceUserEmail == ''"></button>
           </div>
         </ng-template>
       </p-stepperPanel>

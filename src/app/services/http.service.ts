@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, catchError, throwError } from "rxjs";
+import { ApiUrls } from "../apiUrls";
 
 @Injectable({providedIn:"root"})
 export class HttpService{
@@ -17,7 +18,7 @@ export class HttpService{
       'Content-Type': 'application/json'
     });
 
-    return this.httpClient.get<any>(this.url + 'api/Issue/allIssues/' + fixVersion, { headers });
+    return this.httpClient.get<any>(this.url + ApiUrls.ALL_ISSUES + fixVersion, { headers });
   }
 
 

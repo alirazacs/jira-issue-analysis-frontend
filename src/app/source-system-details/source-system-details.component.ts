@@ -1,10 +1,5 @@
+import { SourceCredentials } from './../models/ProjectSource';
 import { Component, OnInit } from '@angular/core';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { DropdownModule } from 'primeng/dropdown';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { StepperModule } from 'primeng/stepper';
 interface City {
   name: string;
   code: string;
@@ -21,9 +16,16 @@ export class SourceSystemDetailsComponent implements OnInit {
   customFieldsDrpdwnValues:any;
   cities: City[] | undefined;
   selectedCity: City | undefined;
+  sourceCredentials: SourceCredentials ={
+    Id : 0,
+    SourceAuthToken:'',
+    SourceUserEmail:'',
+    SourceURL:''
+  };
   constructor() { }
 
   ngOnInit(): void {
+
     this.cities = [
       { name: 'New York', code: 'NY' },
       { name: 'Rome', code: 'RM' },
@@ -44,5 +46,10 @@ export class SourceSystemDetailsComponent implements OnInit {
     },
     ]
   }
+  submitSourceDetails()
+  {
+    console.log(this.sourceCredentials);
+  }
+
 
 }
