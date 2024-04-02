@@ -8,7 +8,8 @@ export interface AppState{
 }
 
 export interface LoadingStates{
-  saveCredetialsLoadingState: LoadingState
+  saveCredetialsLoadingState: LoadingState,
+  sourceProjectsAndCustomFieldsLoadingState: LoadingState;
 }
 
 export interface AppData{

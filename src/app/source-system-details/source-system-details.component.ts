@@ -2,7 +2,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../app-states';
 import { CustomField, SourceCredentials, SourceFieldsResponse, SourceProject } from './../models/ProjectSource';
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
-import { fetchSourceDetails, fetchSourceProjectsAndCustomFields, postSourceDetails, setSourceDetailsLoadingState } from '../app.actions';
+import { fetchSourceDetails, fetchSourceProjectsAndCustomFields, postSourceDetails, postSourceProjectsAndCustomFields, setSourceDetailsLoadingState } from '../app.actions';
 import { MessageService } from 'primeng/api';
 import { validateEmail, validateUrl } from '../services/helper-function';
 import { ToastService } from '../services/toast.service';
@@ -51,7 +51,7 @@ export class SourceSystemDetailsComponent implements OnInit {
 
     this.subscription.add(combineLatest([sourceProjects$, sourceCredentials$, isSourceConfigured$])
     .subscribe(([sourceFields, sourceCredentials, isSourceConfigured])=>{
-      this.sourceFields = sourceFields;
+      this.sourceFields = {...sourceFields};
       this.sourceCredentials = sourceCredentials;
       this.isSourceConfigured = isSourceConfigured;
       this.savedSourceFields = sourceFields;
@@ -66,20 +66,8 @@ export class SourceSystemDetailsComponent implements OnInit {
 
 
     this.store.dispatch(fetchSourceProjectsAndCustomFields());
-
-    this.customFieldsDrpdwnValues = [
-      {
-        id: 1,
-        name: "Vitara Brezza",
-        val: "VITARA"
-      },
-      {
-        id: 2,
-        name: "Mahindra Thar",
-        val: "THAR"
-      },
-    ]
   }
+
   submitSourceDetails(nextCallback: EventEmitter<any>) {
     if (!validateEmail(this.sourceCredentials.sourceUserEmail)) {
       this.toastService.showToastMessage('error', 'Error!', 'Invalid User Email');
@@ -109,29 +97,11 @@ export class SourceSystemDetailsComponent implements OnInit {
   isSourceDetailsChanged() {
     return this.savedSourceFields.sourceProjects == this.sourceFields.sourceProjects &&
       this.savedSourceFields.storyPointsCustomField == this.sourceFields.storyPointsCustomField &&
-      this.savedSourceFields.teamBoardCustomField == this.sourceFields.teamBoardCustomField;
+      this.savedSourceFields.teamBoardCustomField == this.sourceFields.teamBoardCustomField && this.sourceFields.userProject !== null;
   }
 
-  submitSourceFields()
-  {
-    console.log(this.sourceFields);
+  submitSourceFields() {
+    this.store.dispatch(postSourceProjectsAndCustomFields({ sourceFields: this.sourceFields }));
   }
-
-  onChangeStoryPointsCustomField(event: any) {
-    this.sourceFields.storyPointsCustomField = event.value;
-  }
-
-  onChangeTeamBoardsCustomField(event: any) {
-    this.sourceFields.teamBoardCustomField = event.value;
-  }
-
-  onChangeProjectsField(event: any) {
-    this.sourceFields.userProject = {...event.value};
-  }
-
-
-
-
-
 
 }

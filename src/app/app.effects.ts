@@ -27,6 +27,11 @@ export class AppEffects {
     ofType(actions.fetchSourceProjectsAndCustomFields),
     mergeMap(action => this.fetchSourceProjects(action).pipe(map((res) => this.dispatchSourceProjects(res))))));
 
+  addSourceProjectsAndCustomFields$ = createEffect(() => this.actions$.pipe(
+      ofType(actions.postSourceProjectsAndCustomFields),
+      mergeMap(action => this.addSourceProjectsAndCustomFields(action).pipe(map((res) => this.dispatchSourceProjectsAndCustomFields(res))))));
+
+
   postSourceDetails(action: any): Observable<SourceCredentials> {
     const url = ApiUrls.SOURCE_DETAILS;
     const params = action.sourceDetails;
@@ -78,6 +83,28 @@ export class AppEffects {
     }
 
     this.store.dispatch(actions.setSourceProjectsLoadingState({ loadingState: LoadingState.DONE }));
+    return actions.setSourceProjectsAndCustomFields({ sourceFields: response });
+  }
+
+  addSourceProjectsAndCustomFields(action:any):Observable<SourceFieldsResponse>{
+    const url = ApiUrls.SOURCE_PROJECTS_AND_CUSTOM_FIELD;
+    const payload = action.sourceFields;
+    this.store.dispatch(actions.setSourceProjectsAndCustomFieldsLoadingState({ loadingState: LoadingState.LOADING}));
+
+    return <any>this.httpService.apiPostRequest(url, payload).pipe(catchError(error => {
+      this.toastService.showToastMessage('error', 'Error!', error.error);
+      this.store.dispatch(actions.setSourceProjectsAndCustomFieldsLoadingState({ loadingState: LoadingState.ERROR }));
+      return of(undefined);
+    }));
+  }
+
+  dispatchSourceProjectsAndCustomFields(response: SourceFieldsResponse) {
+    if (!response) {
+      return actions.fetchError();
+    }
+
+    this.toastService.showToastMessage('success', 'Success!', 'Source custom fields & projects updated successfully');
+    this.store.dispatch(actions.setSourceProjectsAndCustomFieldsLoadingState({ loadingState: LoadingState.DONE }));
     return actions.setSourceProjectsAndCustomFields({ sourceFields: response });
   }
 }

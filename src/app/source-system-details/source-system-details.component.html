@@ -73,12 +73,12 @@
               placeholder="Source project" optionLabel="name" autoWidth="false" [style]="{'width':'100%'}">
             </p-dropdown>
 
-            <label class="block text-sm pb-1 mt-4">Select Story Points Custom Field&nbsp;<span class="asterik">*</span></label>
+            <label class="block text-sm pb-1 mt-4">Select Story Points Custom Field</label>
             <p-dropdown [options]="filterCustomFields(sourceFields.sourceCustomFields, sourceFields.teamBoardCustomField)" [(ngModel)]="sourceFields.storyPointsCustomField" emptyMessage="No custom fields found"
             placeholder="Story Points Custom Field" optionLabel="customFieldKey" autoWidth="false" [style]="{'width':'100%'}">
             </p-dropdown>
 
-            <label class="block text-sm pb-1 mt-4">Select Team Board Custom Field&nbsp;<span class="asterik">*</span></label>
+            <label class="block text-sm pb-1 mt-4">Select Team Board Custom Field</label>
             <p-dropdown [options]="filterCustomFields(sourceFields.sourceCustomFields, sourceFields.storyPointsCustomField)" [(ngModel)]="sourceFields.teamBoardCustomField" emptyMessage="No custom fields found"
               placeholder="Teamboard Custom Field" optionLabel="customFieldKey" autoWidth="false" [style]="{'width':'100%'}">
             </p-dropdown>
@@ -86,7 +86,7 @@
           </div>
           <div class="flex pt-4 justify-content-between">
             <p-button label="Source Details" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
-            <p-button label="Save Project & Custom Fields" (onclick)="submitSourceFields()"/>
+            <p-button label="Save Project & Custom Fields" (onClick)="submitSourceFields()" [disabled]="isSourceDetailsChanged()"/>
           </div>
         </ng-template>
       </p-stepperPanel>

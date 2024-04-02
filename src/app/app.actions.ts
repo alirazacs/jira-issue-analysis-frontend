@@ -8,7 +8,8 @@ export const postSourceDetails = createAction('[postSourceDetails] Post Source U
 export const fetchError = createAction('[fetchError] FetchError');
 export const fetchSourceProjectsAndCustomFields = createAction('[fetchSourceProjectsAndCustomFields] Fetch Source Projects And Custom Fields');
 export const setSourceProjectsAndCustomFields = createAction('[setSourceProjectsAndCustomFields] Set Source Projects And Custom Fields', props<{sourceFields: SourceFieldsResponse}>());
-
+export const postSourceProjectsAndCustomFields = createAction('[postSourceProjectsAndCustomFields] Post Source Projects And Custom Fields', props<{sourceFields: SourceFieldsResponse}>());
 //loading states
 export const setSourceDetailsLoadingState = createAction('[setSourceDetailsLoadingState] Source details loading state', props<{ loadingState: LoadingState }>());
 export const setSourceProjectsLoadingState = createAction('[setSourceProjectsLoadingState] Source projects loading state', props<{ loadingState: LoadingState }>());
+export const setSourceProjectsAndCustomFieldsLoadingState = createAction('[setSourceProjectsAndCustomFieldsLoadingState] Source projects and customfields loading state', props<{ loadingState: LoadingState }>());
