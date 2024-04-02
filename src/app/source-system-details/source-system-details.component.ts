@@ -7,7 +7,7 @@ import { MessageService } from 'primeng/api';
 import { validateEmail, validateUrl } from '../services/helper-function';
 import { ToastService } from '../services/toast.service';
 import { LoadingState } from '../models/Issue';
-import { selectLoadingStates, selectSourceCredentials, selectSourceProjects } from '../loading-states.selector';
+import { selectIsSourceConfigured, selectLoadingStates, selectSourceCredentials, selectSourceProjects } from '../loading-states.selector';
 import { Subscription, combineLatest } from 'rxjs';
 
 @Component({
@@ -26,7 +26,8 @@ export class SourceSystemDetailsComponent implements OnInit {
     storyPointsCustomField: undefined,
     sourceProjects: [],
     userProject: undefined
-};
+  };
+  savedSourceFields : SourceFieldsResponse = this.sourceFields;
   selectedProject: SourceProject | undefined;
   sourceCredentials: SourceCredentials = {
     id: 0,
@@ -34,6 +35,7 @@ export class SourceSystemDetailsComponent implements OnInit {
     sourceUserEmail: '',
     sourceURL: ''
   };
+  isSourceConfigured: boolean = false;
 
   nextCallBackEvent: EventEmitter<any> | undefined;
   constructor(private store: Store<AppState>, private toastService: ToastService) { }
@@ -43,13 +45,17 @@ export class SourceSystemDetailsComponent implements OnInit {
     const loadingStates$ = this.store.pipe(selectLoadingStates);
     const sourceProjects$ = this.store.pipe(selectSourceProjects);
     const sourceCredentials$ = this.store.pipe(selectSourceCredentials);
+    const isSourceConfigured$ = this.store.pipe(selectIsSourceConfigured);
+
     this.store.dispatch(fetchSourceDetails());
 
-    this.subscription.add(combineLatest([sourceProjects$, sourceCredentials$])
-    .subscribe(([sourceFields, sourceCredentials])=>{
+    this.subscription.add(combineLatest([sourceProjects$, sourceCredentials$, isSourceConfigured$])
+    .subscribe(([sourceFields, sourceCredentials, isSourceConfigured])=>{
       this.sourceFields = sourceFields;
       this.sourceCredentials = sourceCredentials;
-    }))
+      this.isSourceConfigured = isSourceConfigured;
+      this.savedSourceFields = sourceFields;
+    }));
 
     this.subscription.add(loadingStates$.subscribe(loadingState => {
       if (loadingState.saveCredetialsLoadingState == LoadingState.DONE) {
@@ -99,5 +105,33 @@ export class SourceSystemDetailsComponent implements OnInit {
     }
     return customFields.filter(customField => customField.customFieldValue !== otherCustomField.customFieldValue);
   }
+
+  isSourceDetailsChanged() {
+    return this.savedSourceFields.sourceProjects == this.sourceFields.sourceProjects &&
+      this.savedSourceFields.storyPointsCustomField == this.sourceFields.storyPointsCustomField &&
+      this.savedSourceFields.teamBoardCustomField == this.sourceFields.teamBoardCustomField;
+  }
+
+  submitSourceFields()
+  {
+    console.log(this.sourceFields);
+  }
+
+  onChangeStoryPointsCustomField(event: any) {
+    this.sourceFields.storyPointsCustomField = event.value;
+  }
+
+  onChangeTeamBoardsCustomField(event: any) {
+    this.sourceFields.teamBoardCustomField = event.value;
+  }
+
+  onChangeProjectsField(event: any) {
+    this.sourceFields.userProject = {...event.value};
+  }
+
+
+
+
+
 
 }

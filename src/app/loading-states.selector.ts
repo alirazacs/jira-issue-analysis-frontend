@@ -17,6 +17,11 @@ const sourceCredentialsSelector = createSelector(
   (appState: AppData) => appState.sourceCredentials
 );
 
+const isProjectSourceConfiguredSelector = createSelector(
+  (state: AppState) => state.appData,
+  (appState: AppData) => appState.isProjectSourceConfigured
+);
+
 
 export const selectLoadingStates = pipe(
   select(loadingStateSelector)
@@ -29,4 +34,8 @@ export const selectSourceProjects = pipe(
 
 export const selectSourceCredentials = pipe(
   select(sourceCredentialsSelector)
+);
+
+export const selectIsSourceConfigured = pipe(
+  select(isProjectSourceConfiguredSelector)
 );

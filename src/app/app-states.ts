@@ -13,7 +13,8 @@ export interface LoadingStates{
 
 export interface AppData{
   sourceCredentials: SourceCredentials,
-  sourceFields: SourceFieldsResponse
+  sourceFields: SourceFieldsResponse,
+  isProjectSourceConfigured: boolean
 }
 
 
@@ -30,6 +31,7 @@ export const defaultAppDate: AppData = {
     teamBoardCustomField: undefined,
     sourceProjects: [],
     userProject: undefined
-  }
+  },
+  isProjectSourceConfigured: false
 }
 

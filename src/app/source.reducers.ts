@@ -9,7 +9,8 @@ const sourceCredentialsReducer = createReducer(
   defaultAppDate,
   on(setSourceDetails, (state, { sourceDetails }) => ({
     ...state,
-    sourceCredentials: sourceDetails ,
+    sourceCredentials: sourceDetails,
+    isProjectSourceConfigured: sourceDetails != null
   })),
   on(setSourceProjectsAndCustomFields, (state, { sourceFields }) => ({
     ...state,

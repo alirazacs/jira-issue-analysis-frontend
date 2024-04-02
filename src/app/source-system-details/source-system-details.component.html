@@ -40,24 +40,24 @@
         <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
           <div class="flex flex-column w-full pb-2 m-2">
             <label class="block text-sm pb-1">Source URL&nbsp;<span class="asterik">*</span></label>
-            <input type="text" [(ngModel)]="sourceCredentials.sourceURL" pInputText required />
+            <input type="text" [(ngModel)]="sourceCredentials.sourceURL" pInputText required [disabled]="isSourceConfigured"/>
           </div>
           <div class="flex flex-column w-full pb-2 m-2">
             <label class="block text-sm pb-1">User Email&nbsp;<span class="asterik">*</span></label>
-            <input type="text" [(ngModel)]="sourceCredentials.sourceUserEmail" pInputText required />
+            <input type="text" [(ngModel)]="sourceCredentials.sourceUserEmail" pInputText required [disabled]="isSourceConfigured"/>
           </div>
           <div class="flex flex-column w-full pb-2 m-2">
             <label class="block text-sm pb-1">API Token&nbsp;<span class="asterik">*</span></label>
-            <input type="text" [(ngModel)]="sourceCredentials.sourceAuthToken" pInputText required />
+            <input [type]="isSourceConfigured ? 'password' : 'text'" [(ngModel)]="sourceCredentials.sourceAuthToken" pInputText required [disabled]="isSourceConfigured"/>
           </div>
-          <div class="text-center m-2">
+          <div class="text-center m-2" *ngIf="!isSourceConfigured">
             <button pButton pRipple label="Submit Source Details" class="p-button-primary text-center"
               (click)="submitSourceDetails(nextCallback)"
               [disabled]="sourceCredentials.sourceAuthToken == '' || sourceCredentials.sourceURL == '' || sourceCredentials.sourceUserEmail == ''"></button>
           </div>
 
-          <div class="flex pt-4 justify-content-end">
-            <p-button label="Next" icon="pi pi-arrow-right" (onClick)="nextCallback.emit()" />
+          <div class="flex pt-4 justify-content-end" *ngIf="isSourceConfigured">
+            <p-button label="Projects & Custom Fields" icon="pi pi-arrow-right" (onClick)="nextCallback.emit()" />
           </div>
 
         </ng-template>
@@ -85,23 +85,11 @@
 
           </div>
           <div class="flex pt-4 justify-content-between">
-            <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+            <p-button label="Source Details" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
+            <p-button label="Save Project & Custom Fields" (onclick)="submitSourceFields()"/>
           </div>
         </ng-template>
       </p-stepperPanel>
-
-      <!-- <p-stepperPanel header="Header III">
-        <ng-template pTemplate="content" let-prevCallback="prevCallback" let-index="index">
-          <div class="flex flex-column h-12rem">
-            <div
-              class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-              Content III</div>
-          </div>
-          <div class="flex pt-4 justify-content-start">
-            <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
-          </div>
-        </ng-template>
-      </p-stepperPanel> -->
 
     </p-stepper>
 
