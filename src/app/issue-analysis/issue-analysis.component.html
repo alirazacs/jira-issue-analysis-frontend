@@ -1,11 +1,28 @@
-<h3>Issue Analysis</h3>
+<div class="m-3"> 
+  <h3>Issue Analysis</h3>
+  
+  <div class="shadow-3 cardDiv">
+    <p-card >
+      <div style="width: fit-content;">
+        <h4>Analysis based on Time Spent and Story Points</h4>
+        <hr>
+      </div>
+    
+      <div *ngIf="issuesFetched" echarts [options]="chartOption"></div>
+    </p-card>
+  </div>
 
+  <div class="shadow-3 cardDiv">
+    <p-card >
+      <div style="width: fit-content;">
+        <h4>Analysis based on Story Points / Time Spent Ratio</h4>
+        <hr>
+      </div>
+     
+      <div *ngIf="issuesFetched" echarts [options]="chartOptionForRatio"></div>
+    </p-card>
+  </div>
+  
+  <div *ngIf="!issuesFetched">We are loading data. Please wait...</div>
+</div>
 
-<h5>Analysis based on story points and their time spent:</h5>
-<div *ngIf="issuesFetched" echarts [options]="chartOption"></div>
-
-<h5>Analysis based on story points/time spent ratio:</h5>
-<div *ngIf="issuesFetched" echarts [options]="chartOptionForRatio"></div>
-
-
-<div *ngIf="!issuesFetched">We are loading data. Please wait...</div>
