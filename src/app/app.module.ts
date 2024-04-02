@@ -7,6 +7,7 @@ import { RouterModule, Router } from '@angular/router';
 import { DropdownModule } from 'primeng/dropdown';
 import { StepperModule } from 'primeng/stepper';
 import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app.routes';
 import { HttpService } from './services/http.service';
@@ -43,6 +44,7 @@ const reducers : ActionReducerMap<AppState> = {
       MenuComponent,
       ButtonModule,
       FormsModule,
+      CardModule,
       AppRoutingModule,
       HttpClientModule,
       BrowserAnimationsModule,

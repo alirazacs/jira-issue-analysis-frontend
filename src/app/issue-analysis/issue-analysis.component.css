@@ -1,0 +1,12 @@
+
+:host ::ng-deep .p-card { 
+  border-radius: 25px !important;  
+  margin-bottom: 25px;
+} 
+:host ::ng-deep .p-card-body { 
+ padding: 0px 0px 0px 10px;
+} 
+
+.cardDiv{
+  border-radius: 25px;
+}
