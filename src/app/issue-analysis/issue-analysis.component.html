@@ -3,14 +3,22 @@
   
   <div class="shadow-3 cardDiv">
     <p-card >
-      <h4>Analysis based on Time Spent and Story Points</h4>
+      <div style="width: fit-content;">
+        <h4>Analysis based on Time Spent and Story Points</h4>
+        <hr>
+      </div>
+    
       <div *ngIf="issuesFetched" echarts [options]="chartOption"></div>
     </p-card>
   </div>
 
   <div class="shadow-3 cardDiv">
     <p-card >
-      <h4>Analysis based on Story Points / Time Spent Ratio</h4>
+      <div style="width: fit-content;">
+        <h4>Analysis based on Story Points / Time Spent Ratio</h4>
+        <hr>
+      </div>
+     
       <div *ngIf="issuesFetched" echarts [options]="chartOptionForRatio"></div>
     </p-card>
   </div>
