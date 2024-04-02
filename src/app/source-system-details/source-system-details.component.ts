@@ -52,7 +52,7 @@ export class SourceSystemDetailsComponent implements OnInit {
     this.subscription.add(combineLatest([sourceProjects$, sourceCredentials$, isSourceConfigured$])
     .subscribe(([sourceFields, sourceCredentials, isSourceConfigured])=>{
       this.sourceFields = {...sourceFields};
-      this.sourceCredentials = sourceCredentials;
+      this.sourceCredentials = {...sourceCredentials};
       this.isSourceConfigured = isSourceConfigured;
       this.savedSourceFields = sourceFields;
     }));

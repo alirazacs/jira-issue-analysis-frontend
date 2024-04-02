@@ -35,7 +35,7 @@
 <div class="card mt-5 border-round-md">
   <h3 class="text-center">Configure Project Source</h3>
   <div class="flex justify-content-center mt-5">
-    <p-stepper>
+    <p-stepper [linear]="true">
       <p-stepperPanel header="Project Source Details">
         <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
           <div class="flex flex-column w-full pb-2 m-2">
