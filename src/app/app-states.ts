@@ -9,6 +9,7 @@ export interface AppState{
 
 export interface LoadingStates{
   saveCredetialsLoadingState: LoadingState,
+  fetchCredentialsLoadingState: LoadingState,
   sourceProjectsAndCustomFieldsLoadingState: LoadingState;
 }
 

@@ -5,13 +5,15 @@ import { LoadingStates } from './app-states';
 
 export const initialState = {
   saveCredetialsLoadingState: 0,
-  sourceProjectsAndCustomFieldsLoadingState: 0
+  sourceProjectsAndCustomFieldsLoadingState: 0,
+  fetchCredentialsLoadingState: 0
 };
 
 const loadingStatesReducer = createReducer(
   initialState,
   on(action.setSourceDetailsLoadingState, (state, { loadingState }) => ({...state, saveCredetialsLoadingState: loadingState})),
   on(action.setSourceProjectsAndCustomFieldsLoadingState, (state, { loadingState }) => ({...state, sourceProjectsAndCustomFieldsLoadingState: loadingState})),
+  on(action.setFetchSourceDetailsLoadingState, (state, { loadingState }) => ({...state, fetchCredentialsLoadingState: loadingState})),
 );
 
 export function loadingStatesReducers(state: LoadingStates | undefined, action: Action) {

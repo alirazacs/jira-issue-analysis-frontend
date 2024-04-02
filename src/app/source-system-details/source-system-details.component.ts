@@ -63,9 +63,6 @@ export class SourceSystemDetailsComponent implements OnInit {
         this.navigateToNextStep();
       }
     }));
-
-
-    this.store.dispatch(fetchSourceProjectsAndCustomFields());
   }
 
   submitSourceDetails(nextCallback: EventEmitter<any>) {

@@ -13,3 +13,4 @@ export const postSourceProjectsAndCustomFields = createAction('[postSourceProjec
 export const setSourceDetailsLoadingState = createAction('[setSourceDetailsLoadingState] Source details loading state', props<{ loadingState: LoadingState }>());
 export const setSourceProjectsLoadingState = createAction('[setSourceProjectsLoadingState] Source projects loading state', props<{ loadingState: LoadingState }>());
 export const setSourceProjectsAndCustomFieldsLoadingState = createAction('[setSourceProjectsAndCustomFieldsLoadingState] Source projects and customfields loading state', props<{ loadingState: LoadingState }>());
+export const setFetchSourceDetailsLoadingState = createAction('[setFetchSourceDetailsLoadingState] fetch Source details loading state', props<{ loadingState: LoadingState }>());

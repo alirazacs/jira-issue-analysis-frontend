@@ -20,7 +20,7 @@ export class AppEffects {
 
   fetchSourceDetails$ = createEffect(() => this.actions$.pipe(
     ofType(actions.fetchSourceDetails),
-    mergeMap(action => this.fetchSourceDetails(action).pipe(map((res) => this.dispatchSourceDetails(res))))));
+    mergeMap(action => this.fetchSourceDetails(action).pipe(map((res) => this.dispatchFetchedSourceDetails(res))))));
 
 
   sourceProjects$ = createEffect(() => this.actions$.pipe(
@@ -47,10 +47,10 @@ export class AppEffects {
   fetchSourceDetails(action: any): Observable<SourceCredentials> {
     const url = ApiUrls.SOURCE_DETAILS;
 
-    this.store.dispatch(actions.setSourceDetailsLoadingState({ loadingState: LoadingState.LOADING }));
+    this.store.dispatch(actions.setFetchSourceDetailsLoadingState({ loadingState: LoadingState.LOADING }));
     return <any>this.httpService.apiGetRequest(url).pipe(catchError(error => {
       this.toastService.showToastMessage('error', 'Error!', error.error);
-      this.store.dispatch(actions.setSourceDetailsLoadingState({ loadingState: LoadingState.ERROR }));
+      this.store.dispatch(actions.setFetchSourceDetailsLoadingState({ loadingState: LoadingState.ERROR }));
       return of(undefined);
     }));
   }
@@ -63,7 +63,16 @@ export class AppEffects {
     }
 
     this.store.dispatch(actions.setSourceDetailsLoadingState({ loadingState: LoadingState.DONE }));
-    //this.toastService.showToastMessage('success', 'Success!', 'Added source details successfully');
+    this.toastService.showToastMessage('success', 'Success!', 'Added source details successfully');
+    return actions.setSourceDetails({ sourceDetails: response });
+  }
+
+  dispatchFetchedSourceDetails(response: SourceCredentials) {
+    if (!response) {
+      return actions.fetchError();
+    }
+
+    this.store.dispatch(actions.setFetchSourceDetailsLoadingState({ loadingState: LoadingState.DONE }));
     return actions.setSourceDetails({ sourceDetails: response });
   }
 
