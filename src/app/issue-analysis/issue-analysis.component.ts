@@ -45,36 +45,24 @@ export class IssueAnalysisComponent implements OnInit {
       console.log(data);
       this.releasesList = data[0];
       this.issues = data[1];
-      this.issueIds = this.issues.map((issue: { id: any; }) => issue.id);
-      this.timeSpentOnIssueIds = this.issues.map(issue => issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays);
-      this.storyPointsOnIssue = this.issues.map(issue => issue.storyPoints);
-      this.timeSpentToStoryPointsRatio = this.timeSpentOnIssueIds.map((ts, index) => {
-        return ts > 0 ? this.storyPointsOnIssue[index] / ts : 0;
-      });
-      this.issuesFetched = true;
-      this.populateChart();
-      this.populateChartForRatio();
+      this.prepareChartAndTableDate();
     }));
-
-
-
-    this.httpService.fetchIssuesAgainstFixVersion("1.9.6.20").subscribe(data => {
-      this.issues = data.issues;
-      this.issueIds = this.issues.map((issue: { id: any; }) => issue.id);
-      this.timeSpentOnIssueIds = this.issues.map(issue => issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays);
-      this.storyPointsOnIssue = this.issues.map(issue => issue.storyPoints);
-      this.timeSpentToStoryPointsRatio = this.timeSpentOnIssueIds.map((ts, index) => {
-        return ts > 0 ? this.storyPointsOnIssue[index] / ts : 0;
-      });
-      this.issuesFetched = true;
-      this.populateChart();
-      this.populateChartForRatio();
-
-    });
   }
 
   applyFilterGlobal($event: any, stringVal: any) {
     this.dt!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+  }
+
+  prepareChartAndTableDate() {
+    this.issueIds = this.issues.map((issue: { id: any; }) => issue.id);
+    this.timeSpentOnIssueIds = this.issues.map(issue => issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays);
+    this.storyPointsOnIssue = this.issues.map(issue => issue.storyPoints);
+    this.timeSpentToStoryPointsRatio = this.timeSpentOnIssueIds.map((ts, index) => {
+      return ts > 0 ? this.storyPointsOnIssue[index] / ts : 0;
+    });
+    this.issuesFetched = true;
+    this.populateChart();
+    this.populateChartForRatio();
   }
 
   populateChart() {

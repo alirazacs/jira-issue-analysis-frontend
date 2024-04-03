@@ -1,90 +1,92 @@
 <div class="m-3">
   <div class="flex mt-4">
-    <p-dropdown [options]="releasesList" [(ngModel)]="selectedRelease" optionLabel="name" placeholder="Select a release" emptyMessage="No releases found"></p-dropdown>
+    <p-dropdown [options]="releasesList" [(ngModel)]="selectedRelease" optionLabel="name" placeholder="Select a release"
+      emptyMessage="No releases found"></p-dropdown>
     <p-button class="ml-3" [disabled]="selectedRelease.id == ''" (onClick)="loadSelectedReleaseData()">Submit</p-button>
   </div>
 
+  <div *ngIf="issues.length > 0">
+    <h3>Issue Analysis</h3>
 
-  <h3>Issue Analysis</h3>
+    <div class="shadow-3 cardDiv">
+      <p-card>
+        <div style="width: fit-content;">
+          <h4>Analysis based on Time Spent and Story Points</h4>
+          <hr>
+        </div>
 
-  <div class="shadow-3 cardDiv">
-    <p-card>
-      <div style="width: fit-content;">
-        <h4>Analysis based on Time Spent and Story Points</h4>
-        <hr>
-      </div>
+        <div *ngIf="issuesFetched" echarts [options]="chartOption"></div>
+      </p-card>
+    </div>
 
-      <div *ngIf="issuesFetched" echarts [options]="chartOption"></div>
-    </p-card>
+    <div class="shadow-3 cardDiv">
+      <p-card>
+        <div style="width: fit-content;">
+          <h4>Analysis based on Story Points / Time Spent Ratio</h4> <span>(Green indicates "good" while red indicates
+            "poor" productivity).</span>
+          <hr>
+        </div>
+
+        <div *ngIf="issuesFetched" echarts [options]="chartOptionForRatio"></div>
+      </p-card>
+    </div>
+
+    <div class="shadow-3 cardDiv">
+      <p-card>
+        <div style="width: fit-content;">
+          <h4>Issue Analysis Details</h4>
+          <hr>
+        </div>
+        <p-table #dt1 [value]="issues" [rows]="10" [paginator]="true" [rowHover]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [globalFilterFields]="['type', 'id','status']" [rowsPerPageOptions]="[10, 25, 50]"
+          [tableStyle]="{'min-width': '60rem','font-size':'12px'}">
+          <ng-template pTemplate="caption">
+            <div class="flex">
+              <span class="p-input-icon-left ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                  placeholder="Search keyword" />
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="id" style="width:10%">Issue Id <p-sortIcon field="id"></p-sortIcon></th>
+              <th pSortableColumn="type" style="width:10%">Issue Type <p-sortIcon field="type"></p-sortIcon></th>
+              <th pSortableColumn="desc" style="width:15%">Description<p-sortIcon field="desc"></p-sortIcon></th>
+              <th pSortableColumn="status" style="width:10%">Issue Status<p-sortIcon field="status"></p-sortIcon></th>
+              <th pSortableColumn="storyPoints" style="width:5%">Story Points<p-sortIcon
+                  field="storyPoints"></p-sortIcon>
+              </th>
+              <th pSortableColumn="estimate" style="width:5%">Issue Estimate(days)<p-sortIcon
+                  field="estimate"></p-sortIcon></th>
+              <th pSortableColumn="spent" style="width:5%">Time Spent(days)<p-sortIcon field="spent"></p-sortIcon></th>
+              <th pSortableColumn="ratio" style="width:10%">Productivity Ratio<p-sortIcon field="ratio"></p-sortIcon>
+              </th>
+              <th pSortableColumn="created" style="width:10%">Date Created<p-sortIcon field="created"></p-sortIcon></th>
+              <th pSortableColumn="resolved" style="width:10%">Date Resolved<p-sortIcon field="resolved"></p-sortIcon>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-issue>
+            <tr>
+              <td>{{issue.id}}</td>
+              <td>{{issue.issueType.name}}</td>
+              <td>{{issue.summary}}</td>
+              <td>{{issue.status}}</td>
+              <td>{{issue.storyPoints}}</td>
+              <td>{{issue.issueEstimatedAndSpentTime.aggregatedTimeEstimateInDays}}</td>
+              <td>{{issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays}}</td>
+              <td>{{issue.productivityRatio}}</td>
+              <td>{{issue.createdDate}}</td>
+              <td>{{issue.resolvedDate}}</td>
+
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-card>
+
+    </div>
   </div>
-
-  <div class="shadow-3 cardDiv">
-    <p-card>
-      <div style="width: fit-content;">
-        <h4>Analysis based on Story Points / Time Spent Ratio</h4> <span>(Green indicates "good" while red indicates
-          "poor" productivity).</span>
-        <hr>
-      </div>
-
-      <div *ngIf="issuesFetched" echarts [options]="chartOptionForRatio"></div>
-    </p-card>
-  </div>
-
-  <div class="shadow-3 cardDiv">
-    <p-card>
-      <div style="width: fit-content;">
-        <h4>Issue Analysis Details</h4>
-        <hr>
-      </div>
-      <p-table #dt1 [value]="issues" [rows]="10" [paginator]="true" [rowHover]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [globalFilterFields]="['type', 'id','status']" [rowsPerPageOptions]="[10, 25, 50]"
-        [tableStyle]="{'min-width': '60rem','font-size':'12px'}">
-        <ng-template pTemplate="caption">
-          <div class="flex">
-            <span class="p-input-icon-left ml-auto">
-              <i class="pi pi-search"></i>
-              <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
-                placeholder="Search keyword" />
-            </span>
-          </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-          <tr>
-            <th pSortableColumn="id" style="width:10%">Issue Id <p-sortIcon field="id"></p-sortIcon></th>
-            <th pSortableColumn="type" style="width:10%">Issue Type <p-sortIcon field="type"></p-sortIcon></th>
-            <th pSortableColumn="desc" style="width:15%">Description<p-sortIcon field="desc"></p-sortIcon></th>
-            <th pSortableColumn="status" style="width:10%">Issue Status<p-sortIcon field="status"></p-sortIcon></th>
-            <th pSortableColumn="storyPoints" style="width:5%">Story Points<p-sortIcon field="storyPoints"></p-sortIcon>
-            </th>
-            <th pSortableColumn="estimate" style="width:5%">Issue Estimate(days)<p-sortIcon
-                field="estimate"></p-sortIcon></th>
-            <th pSortableColumn="spent" style="width:5%">Time Spent(days)<p-sortIcon field="spent"></p-sortIcon></th>
-            <th pSortableColumn="ratio" style="width:10%">Productivity Ratio<p-sortIcon field="ratio"></p-sortIcon></th>
-            <th pSortableColumn="created" style="width:10%">Date Created<p-sortIcon field="created"></p-sortIcon></th>
-            <th pSortableColumn="resolved" style="width:10%">Date Resolved<p-sortIcon field="resolved"></p-sortIcon>
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-issue>
-          <tr>
-            <td>{{issue.id}}</td>
-            <td>{{issue.issueType.name}}</td>
-            <td>{{issue.summary}}</td>
-            <td>{{issue.status}}</td>
-            <td>{{issue.storyPoints}}</td>
-            <td>{{issue.issueEstimatedAndSpentTime.aggregatedTimeEstimateInDays}}</td>
-            <td>{{issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays}}</td>
-            <td>{{issue.productivityRatio}}</td>
-            <td>{{issue.createdDate}}</td>
-            <td>{{issue.resolvedDate}}</td>
-
-          </tr>
-        </ng-template>
-      </p-table>
-    </p-card>
-
-  </div>
-
-  <div *ngIf="!issuesFetched">We are loading data. Please wait...</div>
 </div>

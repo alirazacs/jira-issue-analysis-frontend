@@ -55,5 +55,6 @@ export const selectReleases = pipe(
 );
 
 export const selectIssues = pipe(
-  select(issuesSelector)
+  select(issuesSelector),
+  filter(issues => issues !== null)
 );
