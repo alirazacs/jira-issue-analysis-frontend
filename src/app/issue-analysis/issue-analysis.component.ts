@@ -33,6 +33,7 @@ export class IssueAnalysisComponent implements OnInit {
     name: ''
   };
   showLoadingSpinner = false;
+  storyPointsSeriesName: string = 'Story Points';
 
 
   constructor(private store: Store<AppState>) { }
@@ -45,12 +46,12 @@ export class IssueAnalysisComponent implements OnInit {
     const loadingStates$ = this.store.pipe(issueAnalysisLoadingState);
 
     this.subscription.add(combineLatest([selectReleases$, selectIssues$, loadingStates$])
-    .subscribe(([releases, issues, loadingState])=>{
-      this.releasesList = releases;
-      this.issues = [...issues];
-      this.showLoadingSpinner = loadingState;
-      this.prepareChartAndTableDate();
-    }));
+      .subscribe(([releases, issues, loadingState]) => {
+        this.releasesList = releases;
+        this.issues = [...issues];
+        this.showLoadingSpinner = loadingState;
+        this.prepareChartAndTableDate();
+      }));
   }
 
   applyFilterGlobal($event: any, stringVal: any) {
@@ -156,19 +157,38 @@ export class IssueAnalysisComponent implements OnInit {
 
 
   getFormattedTooltipText(params: any) {
-    var tooltip = '<div style="width:fit-content;white-space:normal;">' + params[0].name + "<br/>";
+    console.log(params);
+    const issue = this.issues.find(issue => issue.id == params[0].name);
+    const keyAndSummary = `${issue?.id} - ${this.getTruncatedName(issue?.summary)}`;
+    var tooltip = '<div style="width:fit-content;white-space:normal;">' + keyAndSummary + "<br/>";
 
     for (var i = 0; i < params.length; i++) {
       tooltip += params[i].marker + params[i].seriesName + ": ";
-      tooltip += params[i].value || "0";
+      tooltip += this.getSeriesValue(params[i].value, params[i].seriesName) || "0";
       tooltip += "<br/>";
     }
 
     return tooltip + "</div>";
   }
 
-  loadSelectedReleaseData()
-  {
-    this.store.dispatch(fetchReleasesIssues({release: this.selectedRelease}));
+  getSeriesValue(seriesValue: number, seriesName: string) {
+    if (seriesName == this.storyPointsSeriesName) {
+      return seriesValue;
+    }
+    return seriesValue.toFixed(2);
+  }
+
+  loadSelectedReleaseData() {
+    this.store.dispatch(fetchReleasesIssues({ release: this.selectedRelease }));
+  }
+
+  getTruncatedName(issueName?: string) {
+    if (!issueName) {
+      return '';
+    }
+    if (issueName.length > 15) {
+      return issueName.substr(0, 15) + '...';
+    }
+    return issueName;
   }
 }
