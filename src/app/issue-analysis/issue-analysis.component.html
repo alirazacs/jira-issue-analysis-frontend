@@ -57,32 +57,34 @@
           <ng-template pTemplate="header">
             <tr>
               <th pSortableColumn="id" style="width:10%">Issue Id <p-sortIcon field="id"></p-sortIcon></th>
-              <th pSortableColumn="type" style="width:10%">Issue Type <p-sortIcon field="type"></p-sortIcon></th>
-              <th pSortableColumn="desc" style="width:15%">Description<p-sortIcon field="desc"></p-sortIcon></th>
+              <th pSortableColumn="issueType.name" style="width:10%">Issue Type <p-sortIcon field="issueType.name"></p-sortIcon></th>
+              <th pSortableColumn="summary" style="width:15%">Description<p-sortIcon field="summary"></p-sortIcon></th>
               <th pSortableColumn="status" style="width:10%">Issue Status<p-sortIcon field="status"></p-sortIcon></th>
               <th pSortableColumn="storyPoints" style="width:5%">Story Points<p-sortIcon
                   field="storyPoints"></p-sortIcon>
               </th>
-              <th pSortableColumn="estimate" style="width:5%">Issue Estimate(days)<p-sortIcon
-                  field="estimate"></p-sortIcon></th>
-              <th pSortableColumn="spent" style="width:5%">Time Spent(days)<p-sortIcon field="spent"></p-sortIcon></th>
-              <th pSortableColumn="ratio" style="width:10%">Productivity Ratio<p-sortIcon field="ratio"></p-sortIcon>
+              <th pSortableColumn="issueEstimatedAndSpentTime.aggregatedTimeEstimateInDays" style="width:5%">Issue Estimate(days)<p-sortIcon
+                  field="issueEstimatedAndSpentTime.aggregatedTimeEstimateInDays"></p-sortIcon></th>
+              <th pSortableColumn="issueEstimatedAndSpentTime.aggregatedTimeSpentInDays" style="width:5%">Time Spent(days)<p-sortIcon field="issueEstimatedAndSpentTime.aggregatedTimeSpentInDays"></p-sortIcon></th>
+              <th pSortableColumn="productivityRatio" style="width:10%">Productivity Ratio<p-sortIcon field="productivityRatio"></p-sortIcon>
               </th>
-              <th pSortableColumn="created" style="width:10%">Date Created<p-sortIcon field="created"></p-sortIcon></th>
-              <th pSortableColumn="resolved" style="width:10%">Date Resolved<p-sortIcon field="resolved"></p-sortIcon>
+              <th pSortableColumn="createdDate" style="width:10%">Date Created<p-sortIcon field="createdDate"></p-sortIcon></th>
+              <th pSortableColumn="resolvedDate" style="width:10%">Date Resolved<p-sortIcon field="resolvedDate"></p-sortIcon>
               </th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-issue>
             <tr>
-              <td>{{issue.id}}</td>
+              <td>
+                <a href="{{issue.issueUrl}}" target='_blank'>{{issue.id}}</a>
+              </td>
               <td>{{issue.issueType.name}}</td>
               <td>{{issue.summary}}</td>
               <td>{{issue.status}}</td>
               <td>{{issue.storyPoints}}</td>
-              <td>{{issue.issueEstimatedAndSpentTime.aggregatedTimeEstimateInDays}}</td>
-              <td>{{issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays}}</td>
-              <td>{{issue.productivityRatio}}</td>
+              <td>{{issue.issueEstimatedAndSpentTime.aggregatedTimeEstimateInDays.toFixed(2)}}</td>
+              <td>{{issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays.toFixed(2)}}</td>
+              <td>{{issue.productivityRatio.toFixed(2)}}</td>
               <td>{{issue.createdDate}}</td>
               <td>{{issue.resolvedDate}}</td>
 

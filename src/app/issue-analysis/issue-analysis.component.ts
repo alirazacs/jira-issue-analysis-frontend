@@ -47,7 +47,7 @@ export class IssueAnalysisComponent implements OnInit {
     this.subscription.add(combineLatest([selectReleases$, selectIssues$, loadingStates$])
     .subscribe(([releases, issues, loadingState])=>{
       this.releasesList = releases;
-      this.issues = issues;
+      this.issues = [...issues];
       this.showLoadingSpinner = loadingState;
       this.prepareChartAndTableDate();
     }));
