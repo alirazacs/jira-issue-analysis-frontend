@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../services/http.service';
 import { Issue } from '../models/Issue';
 import { EChartsOption } from 'echarts';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-issue-analysis',
@@ -17,6 +18,8 @@ export class IssueAnalysisComponent implements OnInit {
   chartOption: EChartsOption = {};
   chartOptionForRatio: EChartsOption = {};
   timeSpentToStoryPointsRatio: number[] = [];
+  @ViewChild('dt1') dt: Table | undefined;
+
 
 
   constructor(private httpService: HttpService) { }
@@ -37,6 +40,10 @@ export class IssueAnalysisComponent implements OnInit {
       this.populateChartForRatio();
 
     });
+  }
+
+  applyFilterGlobal($event: any, stringVal: any) {
+    this.dt!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
 
   populateChart() {
