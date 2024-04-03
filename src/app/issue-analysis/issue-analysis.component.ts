@@ -30,7 +30,7 @@ export class IssueAnalysisComponent implements OnInit {
       this.timeSpentOnIssueIds = this.issues.map(issue => issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays);
       this.storyPointsOnIssue = this.issues.map(issue => issue.storyPoints);
       this.timeSpentToStoryPointsRatio = this.timeSpentOnIssueIds.map((ts, index) => {
-        return ts > 0 ?  this.storyPointsOnIssue[index] / ts : 0;
+        return ts > 0 ? this.storyPointsOnIssue[index] / ts : 0;
       });
       this.issuesFetched = true;
       this.populateChart();
@@ -61,6 +61,12 @@ export class IssueAnalysisComponent implements OnInit {
         axisPointer: {
           type: 'shadow'
         }
+      },
+      legend: {
+        data: [
+          "Time Spent",
+          "Story Points"
+        ],
       },
       series: [
         {
@@ -93,6 +99,7 @@ export class IssueAnalysisComponent implements OnInit {
         nameLocation: 'middle',
         nameGap: 40
       },
+
       tooltip: {
         show: true,
         trigger: 'axis',
@@ -105,9 +112,9 @@ export class IssueAnalysisComponent implements OnInit {
       },
       series: [
         {
-          name: "Time Spent to Story Points ratio",
+          name: "Productivity",
           data: [...this.timeSpentToStoryPointsRatio],
-          itemStyle: { color: (seriesIndex : any)=>{return this.decideColorBasedOnRatio(seriesIndex)} },
+          itemStyle: { color: (seriesIndex: any) => { return this.decideColorBasedOnRatio(seriesIndex) } },
           type: 'bar',
         },
       ],
@@ -115,8 +122,8 @@ export class IssueAnalysisComponent implements OnInit {
 
 
   }
-  
-  decideColorBasedOnRatio(index: any){
+
+  decideColorBasedOnRatio(index: any) {
     return index.value < 1 ? "red" : "green";
   }
 
