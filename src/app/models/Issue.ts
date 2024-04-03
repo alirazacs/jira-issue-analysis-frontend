@@ -23,3 +23,11 @@ export interface Release
 export enum LoadingState{
   PENDING, LOADING, DONE, ERROR
 }
+
+export interface IssueSummary {
+  issues: Issue[];
+  totalIssues: number;
+  numberOfInProgressIssues: number;
+  numberOfResolvedIssues: number;
+  totalStoryPoints: number;
+}

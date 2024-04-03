@@ -1,6 +1,6 @@
 <div class="m-3">
   <div class="flex mt-4">
-    <p-dropdown [options]="releasesList" [(ngModel)]="selectedRelease" optionLabel="name" placeholder="Select a release", emptyMessage="No releases found"></p-dropdown>
+    <p-dropdown [options]="releasesList" [(ngModel)]="selectedRelease" optionLabel="name" placeholder="Select a release" emptyMessage="No releases found"></p-dropdown>
     <p-button class="ml-3" [disabled]="selectedRelease.id == ''" (onClick)="loadSelectedReleaseData()">Submit</p-button>
   </div>
 

@@ -28,6 +28,10 @@ const releasesSelector = createSelector(
   (appState: AppData) => appState.releasesList
 );
 
+const issuesSelector = createSelector(
+  (state: AppState) => state.appData,
+  (appState: AppData) => appState.issues
+);
 
 export const selectLoadingStates = pipe(
   select(loadingStateSelector)
@@ -48,4 +52,8 @@ export const selectIsSourceConfigured = pipe(
 
 export const selectReleases = pipe(
   select(releasesSelector)
+);
+
+export const selectIssues = pipe(
+  select(issuesSelector)
 );

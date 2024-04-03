@@ -5,9 +5,9 @@ import { EChartsOption } from 'echarts';
 import { Table } from 'primeng/table';
 import { AppState } from '../app-states';
 import { Store } from '@ngrx/store';
-import { fetchAllReleases } from '../app.actions';
-import { Subscription } from 'rxjs';
-import { selectReleases } from '../app.selector';
+import { fetchAllReleases, fetchReleasesIssues } from '../app.actions';
+import { Subscription, combineLatest } from 'rxjs';
+import { selectIssues, selectReleases } from '../app.selector';
 
 @Component({
   selector: 'app-issue-analysis',
@@ -40,9 +40,23 @@ export class IssueAnalysisComponent implements OnInit {
 
     this.store.dispatch(fetchAllReleases());
     const selectReleases$ = this.store.pipe(selectReleases);
-    this.subscription.add(selectReleases$.subscribe(data=>{
-      this.releasesList = data;
+    const selectIssues$ = this.store.pipe(selectIssues);
+    this.subscription.add(combineLatest([selectReleases$, selectIssues$]).subscribe(data=>{
+      console.log(data);
+      this.releasesList = data[0];
+      this.issues = data[1];
+      this.issueIds = this.issues.map((issue: { id: any; }) => issue.id);
+      this.timeSpentOnIssueIds = this.issues.map(issue => issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays);
+      this.storyPointsOnIssue = this.issues.map(issue => issue.storyPoints);
+      this.timeSpentToStoryPointsRatio = this.timeSpentOnIssueIds.map((ts, index) => {
+        return ts > 0 ? this.storyPointsOnIssue[index] / ts : 0;
+      });
+      this.issuesFetched = true;
+      this.populateChart();
+      this.populateChartForRatio();
     }));
+
+
 
     this.httpService.fetchIssuesAgainstFixVersion("1.9.6.20").subscribe(data => {
       this.issues = data.issues;
@@ -166,6 +180,6 @@ export class IssueAnalysisComponent implements OnInit {
 
   loadSelectedReleaseData()
   {
-
+    this.store.dispatch(fetchReleasesIssues({release: this.selectedRelease}));
   }
 }
