@@ -34,7 +34,7 @@ const issuesSelector = createSelector(
 
 const issuesAndReleaseLoadingStatesSelector = createSelector(
   (state: AppState) => state.loadingStates,
-  (loadingStates: LoadingStates) => loadingStates.fetchReleaseLoadingState == 1 || loadingStates.releaseIssuesLoadingState == 1 || loadingStates.releaseIssuesLoadingState == 3 || loadingStates.fetchReleaseLoadingState == 3
+  (loadingStates: LoadingStates) => loadingStates.fetchReleaseLoadingState == 1 || loadingStates.releaseIssuesLoadingState == 1
 );
 
 export const selectLoadingStates = pipe(

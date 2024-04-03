@@ -48,7 +48,7 @@ export class SourceSystemDetailsComponent implements OnInit {
     const isSourceConfigured$ = this.store.pipe(selectIsSourceConfigured);
 
     this.store.dispatch(fetchSourceDetails());
-    this.store.dispatch(fetchSourceProjectsAndCustomFields());
+
 
     this.subscription.add(combineLatest([sourceProjects$, sourceCredentials$, isSourceConfigured$])
     .subscribe(([sourceFields, sourceCredentials, isSourceConfigured])=>{
@@ -60,6 +60,7 @@ export class SourceSystemDetailsComponent implements OnInit {
 
     this.subscription.add(loadingStates$.subscribe(loadingState => {
       if (loadingState.saveCredetialsLoadingState == LoadingState.DONE) {
+        this.store.dispatch(fetchSourceProjectsAndCustomFields());
         this.navigateToNextStep();
       }
     }));
@@ -99,6 +100,11 @@ export class SourceSystemDetailsComponent implements OnInit {
 
   submitSourceFields() {
     this.store.dispatch(postSourceProjectsAndCustomFields({ sourceFields: this.sourceFields }));
+  }
+
+  goToNextPage(event: EventEmitter<any>) {
+    this.store.dispatch(fetchSourceProjectsAndCustomFields());
+    event.emit();
   }
 
 }
