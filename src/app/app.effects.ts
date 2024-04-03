@@ -147,10 +147,10 @@ export class AppEffects {
 
   fetchReleaseIssues(action:any):Observable<IssueSummary>{
     const url = ApiUrls.RELEASE_ISSUES + action.release.name;
-    this.store.dispatch(actions.fetchReleaseIssuesLoadingState({ loadingState: LoadingState.LOADING}));
+    this.store.dispatch(actions.setReleaseIssuesLoadingState({ loadingState: LoadingState.LOADING}));
     return <any>this.httpService.apiGetRequest(url).pipe(catchError(error => {
       this.toastService.showToastMessage('error', 'Error!', error.error);
-      this.store.dispatch(actions.fetchReleaseIssuesLoadingState({ loadingState: LoadingState.ERROR }));
+      this.store.dispatch(actions.setReleaseIssuesLoadingState({ loadingState: LoadingState.ERROR }));
       return of(undefined);
     }));
   }
@@ -160,7 +160,7 @@ export class AppEffects {
       return actions.fetchError();
     }
 
-    this.store.dispatch(actions.setAllFetchReleasesLoadingState({ loadingState: LoadingState.DONE }));
+    this.store.dispatch(actions.setReleaseIssuesLoadingState({ loadingState: LoadingState.DONE }));
     return actions.setReleaseIssues({ releaseIssues: response.issues });
   }
 }

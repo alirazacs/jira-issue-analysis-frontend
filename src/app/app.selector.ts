@@ -22,7 +22,6 @@ const isProjectSourceConfiguredSelector = createSelector(
   (appState: AppData) => appState.isProjectSourceConfigured
 );
 
-
 const releasesSelector = createSelector(
   (state: AppState) => state.appData,
   (appState: AppData) => appState.releasesList
@@ -31,6 +30,11 @@ const releasesSelector = createSelector(
 const issuesSelector = createSelector(
   (state: AppState) => state.appData,
   (appState: AppData) => appState.issues
+);
+
+const issuesAndReleaseLoadingStatesSelector = createSelector(
+  (state: AppState) => state.loadingStates,
+  (loadingStates: LoadingStates) => loadingStates.fetchReleaseLoadingState == 1 || loadingStates.releaseIssuesLoadingState == 1
 );
 
 export const selectLoadingStates = pipe(
@@ -57,4 +61,8 @@ export const selectReleases = pipe(
 export const selectIssues = pipe(
   select(issuesSelector),
   filter(issues => issues !== null)
+);
+
+export const issueAnalysisLoadingState = pipe(
+  select(issuesAndReleaseLoadingStatesSelector)
 );

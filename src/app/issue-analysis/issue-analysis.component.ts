@@ -7,7 +7,8 @@ import { AppState } from '../app-states';
 import { Store } from '@ngrx/store';
 import { fetchAllReleases, fetchReleasesIssues } from '../app.actions';
 import { Subscription, combineLatest } from 'rxjs';
-import { selectIssues, selectReleases } from '../app.selector';
+import { issueAnalysisLoadingState, selectIssues, selectReleases } from '../app.selector';
+import { state } from '@angular/animations';
 
 @Component({
   selector: 'app-issue-analysis',
@@ -41,10 +42,12 @@ export class IssueAnalysisComponent implements OnInit {
     this.store.dispatch(fetchAllReleases());
     const selectReleases$ = this.store.pipe(selectReleases);
     const selectIssues$ = this.store.pipe(selectIssues);
-    this.subscription.add(combineLatest([selectReleases$, selectIssues$]).subscribe(data=>{
-      console.log(data);
-      this.releasesList = data[0];
-      this.issues = data[1];
+    const loadingStates$ = this.store.pipe(issueAnalysisLoadingState);
+
+    this.subscription.add(combineLatest([selectReleases$, selectIssues$, loadingStates$])
+    .subscribe(([releases, issues, loadingState])=>{
+      this.releasesList = releases;
+      this.issues = issues;
       this.prepareChartAndTableDate();
     }));
   }

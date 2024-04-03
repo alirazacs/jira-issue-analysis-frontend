@@ -20,4 +20,4 @@ export const setSourceProjectsLoadingState = createAction('[setSourceProjectsLoa
 export const setSourceProjectsAndCustomFieldsLoadingState = createAction('[setSourceProjectsAndCustomFieldsLoadingState] Source projects and customfields loading state', props<{ loadingState: LoadingState }>());
 export const setFetchSourceDetailsLoadingState = createAction('[setFetchSourceDetailsLoadingState] fetch Source details loading state', props<{ loadingState: LoadingState }>());
 export const setAllFetchReleasesLoadingState = createAction('[setFetchSourceDetailsLoadingState] fetch Releases loading state', props<{ loadingState: LoadingState }>());
-export const fetchReleaseIssuesLoadingState = createAction('[fetchReleaseIssuesLoadingState] fetch Releases issues loading state', props<{ loadingState: LoadingState }>());
+export const setReleaseIssuesLoadingState = createAction('[setReleaseIssuesLoadingState] fetch Releases issues loading state', props<{ loadingState: LoadingState }>());
