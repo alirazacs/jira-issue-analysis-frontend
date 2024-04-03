@@ -20,7 +20,6 @@ export class IssueAnalysisComponent implements OnInit {
   issueIds: string[] = [];
   timeSpentOnIssueIds: number[] = [];
   storyPointsOnIssue: number[] = [];
-  issuesFetched = false;
   chartOption: EChartsOption = {};
   chartOptionForRatio: EChartsOption = {};
   timeSpentToStoryPointsRatio: number[] = [];
@@ -36,7 +35,7 @@ export class IssueAnalysisComponent implements OnInit {
   showLoadingSpinner = false;
 
 
-  constructor(private httpService: HttpService, private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
 
@@ -62,10 +61,7 @@ export class IssueAnalysisComponent implements OnInit {
     this.issueIds = this.issues.map((issue: { id: any; }) => issue.id);
     this.timeSpentOnIssueIds = this.issues.map(issue => issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays);
     this.storyPointsOnIssue = this.issues.map(issue => issue.storyPoints);
-    this.timeSpentToStoryPointsRatio = this.timeSpentOnIssueIds.map((ts, index) => {
-      return ts > 0 ? this.storyPointsOnIssue[index] / ts : 0;
-    });
-    this.issuesFetched = true;
+    this.timeSpentToStoryPointsRatio = this.issues.map(issue => issue.productivityRatio);
     this.populateChart();
     this.populateChartForRatio();
   }

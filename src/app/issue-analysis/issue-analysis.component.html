@@ -4,7 +4,7 @@
 </div>
 <div class="m-3">
   <div class="flex mt-4">
-    <p-dropdown [options]="releasesList" [(ngModel)]="selectedRelease" optionLabel="name" placeholder="Select a release"
+    <p-dropdown [options]="releasesList" [filter]="true" [(ngModel)]="selectedRelease" optionLabel="name" placeholder="Select a release"
       emptyMessage="No releases found"></p-dropdown>
     <p-button class="ml-3" [disabled]="selectedRelease.id == ''" (onClick)="loadSelectedReleaseData()">Submit</p-button>
   </div>
@@ -19,7 +19,7 @@
           <hr>
         </div>
 
-        <div *ngIf="issuesFetched" echarts [options]="chartOption"></div>
+        <div echarts [options]="chartOption"></div>
       </p-card>
     </div>
 
@@ -31,7 +31,7 @@
           <hr>
         </div>
 
-        <div *ngIf="issuesFetched" echarts [options]="chartOptionForRatio"></div>
+        <div echarts [options]="chartOptionForRatio"></div>
       </p-card>
     </div>
 
