@@ -15,7 +15,7 @@ export class HttpService{
       'Content-Type': 'application/json'
     });
 
-    return this.httpClient.get<any>(this.url + ApiUrls.ALL_ISSUES + fixVersion, { headers });
+    return this.httpClient.get<any>(this.url + ApiUrls.RELEASE_ISSUES + fixVersion, { headers });
   }
 
 
