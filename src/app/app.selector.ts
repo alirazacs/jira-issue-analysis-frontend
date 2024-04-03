@@ -23,6 +23,12 @@ const isProjectSourceConfiguredSelector = createSelector(
 );
 
 
+const releasesSelector = createSelector(
+  (state: AppState) => state.appData,
+  (appState: AppData) => appState.releasesList
+);
+
+
 export const selectLoadingStates = pipe(
   select(loadingStateSelector)
 );
@@ -38,4 +44,8 @@ export const selectSourceCredentials = pipe(
 
 export const selectIsSourceConfigured = pipe(
   select(isProjectSourceConfiguredSelector)
+);
+
+export const selectReleases = pipe(
+  select(releasesSelector)
 );

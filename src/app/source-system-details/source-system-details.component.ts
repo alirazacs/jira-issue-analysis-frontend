@@ -7,7 +7,7 @@ import { MessageService } from 'primeng/api';
 import { validateEmail, validateUrl } from '../services/helper-function';
 import { ToastService } from '../services/toast.service';
 import { LoadingState } from '../models/Issue';
-import { selectIsSourceConfigured, selectLoadingStates, selectSourceCredentials, selectSourceProjects } from '../loading-states.selector';
+import { selectIsSourceConfigured, selectLoadingStates, selectSourceCredentials, selectSourceProjects } from '../app.selector';
 import { Subscription, combineLatest } from 'rxjs';
 
 @Component({

@@ -12,6 +12,14 @@ export interface Issue{
   resolvedDate:Date;
 }
 
+
+export interface Release
+{
+  id: string;
+  name: string;
+  released: boolean;
+  releaseDate: string;
+}
 export enum LoadingState{
   PENDING, LOADING, DONE, ERROR
 }

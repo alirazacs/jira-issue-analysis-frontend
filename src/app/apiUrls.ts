@@ -3,5 +3,6 @@ export const ApiUrls = {
   ADD_PROJECT_SOURCE : 'api/Project/addSourceProject',
   SOURCE_DETAILS: 'api/Source',
   SOURCE_PROJECTS_AND_CUSTOM_FIELD: 'projectsAndCustomFields',
-  RELEASE_ISSUES : 'release/'
+  RELEASE_ISSUES : 'release/',
+  ALL_RELEASES: 'all/releases'
 }

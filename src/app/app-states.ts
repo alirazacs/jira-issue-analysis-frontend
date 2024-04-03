@@ -1,4 +1,4 @@
-import { LoadingState } from "./models/Issue";
+import { LoadingState, Release } from "./models/Issue";
 import { SourceCredentials, SourceFieldsResponse, SourceProject } from "./models/ProjectSource";
 
 export interface AppState{
@@ -10,13 +10,15 @@ export interface AppState{
 export interface LoadingStates{
   saveCredetialsLoadingState: LoadingState,
   fetchCredentialsLoadingState: LoadingState,
-  sourceProjectsAndCustomFieldsLoadingState: LoadingState;
+  sourceProjectsAndCustomFieldsLoadingState: LoadingState,
+  fetchReleaseLoadingState: LoadingState
 }
 
 export interface AppData{
   sourceCredentials: SourceCredentials,
   sourceFields: SourceFieldsResponse,
-  isProjectSourceConfigured: boolean
+  isProjectSourceConfigured: boolean,
+  releasesList: Release[]
 }
 
 
@@ -34,6 +36,7 @@ export const defaultAppDate: AppData = {
     sourceProjects: [],
     userProject: undefined
   },
-  isProjectSourceConfigured: false
+  isProjectSourceConfigured: false,
+  releasesList: []
 }
 

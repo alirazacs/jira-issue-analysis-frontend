@@ -8,7 +8,7 @@ import { SourceCredentials, SourceFieldsResponse, SourceProject } from "./models
 import { Action, Store } from "@ngrx/store";
 import { AppState } from "./app-states";
 import { ToastService } from "./services/toast.service";
-import { LoadingState } from "./models/Issue";
+import { LoadingState, Release } from "./models/Issue";
 @Injectable()
 export class AppEffects {
 
@@ -30,6 +30,10 @@ export class AppEffects {
   addSourceProjectsAndCustomFields$ = createEffect(() => this.actions$.pipe(
       ofType(actions.postSourceProjectsAndCustomFields),
       mergeMap(action => this.addSourceProjectsAndCustomFields(action).pipe(map((res) => this.dispatchSourceProjectsAndCustomFields(res))))));
+
+  fetchAllReleases$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.fetchAllReleases),
+        mergeMap(action => this.fetchAllReleases(action).pipe(map((res) => this.dispatchAllReleases(res))))));
 
 
   postSourceDetails(action: any): Observable<SourceCredentials> {
@@ -115,5 +119,28 @@ export class AppEffects {
     this.toastService.showToastMessage('success', 'Success!', 'Source custom fields & projects updated successfully');
     this.store.dispatch(actions.setSourceProjectsAndCustomFieldsLoadingState({ loadingState: LoadingState.DONE }));
     return actions.setSourceProjectsAndCustomFields({ sourceFields: response });
+  }
+
+
+
+
+  fetchAllReleases(action:any):Observable<Release[]>{
+    const url = ApiUrls.ALL_RELEASES;
+    this.store.dispatch(actions.setAllFetchReleasesLoadingState({ loadingState: LoadingState.LOADING}));
+    return <any>this.httpService.apiGetRequest(url).pipe(catchError(error => {
+      this.toastService.showToastMessage('error', 'Error!', error.error);
+      this.store.dispatch(actions.setAllFetchReleasesLoadingState({ loadingState: LoadingState.ERROR }));
+      return of(undefined);
+    }));
+  }
+
+
+  dispatchAllReleases(response: Release[]) {
+    if (!response) {
+      return actions.fetchError();
+    }
+
+    this.store.dispatch(actions.setAllFetchReleasesLoadingState({ loadingState: LoadingState.DONE }));
+    return actions.setAllReleases({ releases: response });
   }
 }

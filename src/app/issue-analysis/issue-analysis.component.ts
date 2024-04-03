@@ -1,8 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../services/http.service';
-import { Issue } from '../models/Issue';
+import { Issue, Release } from '../models/Issue';
 import { EChartsOption } from 'echarts';
 import { Table } from 'primeng/table';
+import { AppState } from '../app-states';
+import { Store } from '@ngrx/store';
+import { fetchAllReleases } from '../app.actions';
+import { Subscription } from 'rxjs';
+import { selectReleases } from '../app.selector';
 
 @Component({
   selector: 'app-issue-analysis',
@@ -19,15 +24,27 @@ export class IssueAnalysisComponent implements OnInit {
   chartOptionForRatio: EChartsOption = {};
   timeSpentToStoryPointsRatio: number[] = [];
   @ViewChild('dt1') dt: Table | undefined;
+  subscription = new Subscription();
+  releasesList: Release[] = [];
+  selectedRelease: Release = {
+    releaseDate: '',
+    released: false,
+    id: '',
+    name: ''
+  };
 
 
-
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService, private store: Store<AppState>) { }
 
   ngOnInit(): void {
 
-    this.httpService.fetchIssuesAgainstFixVersion("1.9.6.20").subscribe(data => {
+    this.store.dispatch(fetchAllReleases());
+    const selectReleases$ = this.store.pipe(selectReleases);
+    this.subscription.add(selectReleases$.subscribe(data=>{
+      this.releasesList = data;
+    }));
 
+    this.httpService.fetchIssuesAgainstFixVersion("1.9.6.20").subscribe(data => {
       this.issues = data.issues;
       this.issueIds = this.issues.map((issue: { id: any; }) => issue.id);
       this.timeSpentOnIssueIds = this.issues.map(issue => issue.issueEstimatedAndSpentTime.aggregatedTimeSpentInDays);
@@ -145,5 +162,10 @@ export class IssueAnalysisComponent implements OnInit {
     }
 
     return tooltip + "</div>";
+  }
+
+  loadSelectedReleaseData()
+  {
+
   }
 }
