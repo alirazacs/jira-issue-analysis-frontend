@@ -33,6 +33,7 @@ export class IssueAnalysisComponent implements OnInit {
     id: '',
     name: ''
   };
+  showLoadingSpinner = false;
 
 
   constructor(private httpService: HttpService, private store: Store<AppState>) { }
@@ -48,6 +49,7 @@ export class IssueAnalysisComponent implements OnInit {
     .subscribe(([releases, issues, loadingState])=>{
       this.releasesList = releases;
       this.issues = issues;
+      this.showLoadingSpinner = loadingState;
       this.prepareChartAndTableDate();
     }));
   }

@@ -26,6 +26,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { loadingStatesReducers } from './loading-states.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 const reducers : ActionReducerMap<AppState> = {
   appData: sourceReducer,
   loadingStates: loadingStatesReducers
@@ -40,6 +41,7 @@ const reducers : ActionReducerMap<AppState> = {
     providers: [HttpService, MessageService],
     imports: [
       BrowserModule,
+      ProgressSpinnerModule,
       DropdownModule,
       StepperModule,
       MenuComponent,
