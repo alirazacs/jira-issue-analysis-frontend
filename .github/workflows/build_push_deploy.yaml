@@ -36,34 +36,30 @@ jobs:
           docker login issueanalysisregistery.azurecr.io -u ${{ env.ACR_USERNAME }} -p ${{ env.ACR_PASSWORD }}
           docker push ${{ env.FRONTEND_APP_IMAGE_NAME }}
 
-  # Deploy:
-  #   name: Deploy all built artifacts + dependencies to Container App instances
-  #   needs:
-  #     - Build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - run: echo "This job was triggered by a ${{ github.event_name }} event"
+  Deploy:
+    name: Deploy all built artifacts + dependencies to Container App instances
+    needs:
+      - Build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This job was triggered by a ${{ github.event_name }} event"
 
-  #     - name: Login to Azure
-  #       uses: azure/login@v1
-  #       with:
-  #         creds: ${{ secrets.AZURE_SUBSCRIPTION }}
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_SUBSCRIPTION }}
 
-  #     - name: Deploy IssueAnalysisExtended(BE)
-  #       uses: azure/container-apps-deploy-action@v1
-  #       with:
-  #         resourceGroup: rg-issue-analysis
-  #         containerAppEnvironment: issue-analysis-extended-environment
-  #         containerAppName: issue-analysis-extended-backend
-  #         acrName: issueanalysisregistery
-  #         acrUsername: ${{ env.ACR_USERNAME }}
-  #         acrPassword: ${{ env.ACR_PASSWORD }}
-  #         imageToDeploy: ${{ env.BACKEND_APP_IMAGE_NAME }}
-  #         targetPort: 8080
-  #         environmentVariables:
-  #           ASPNETCORE_ENVIRONMENT=Production
-  #           SQLConnectionString='${{ SECRETS.SQL_CONNECTION }}'
-  #           HangfireConnection='${{ SECRETS.SQL_CONN_HANGFIRE_ }}'
+      - name: Deploy IssueAnalysisExtended(FE)
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          resourceGroup: rg-issue-analysis
+          containerAppEnvironment: issue-analysis-extended-environment
+          containerAppName: issue-analysis-extended-frontend
+          acrName: issueanalysisregistery
+          acrUsername: ${{ env.ACR_USERNAME }}
+          acrPassword: ${{ env.ACR_PASSWORD }}
+          imageToDeploy: ${{ env.FRONTEND_APP_IMAGE_NAME }}
+          targetPort: 8080
 
       # - name: Deploy Tracking Container App
       #   uses: azure/container-apps-deploy-action@v1
