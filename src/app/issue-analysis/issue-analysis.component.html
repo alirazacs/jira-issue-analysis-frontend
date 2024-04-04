@@ -43,7 +43,7 @@
         </div>
         <p-table #dt1 [value]="issues" [rows]="10" [paginator]="true" [rowHover]="true"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-          [globalFilterFields]="['type', 'id','status']" [rowsPerPageOptions]="[10, 25, 50, 100]"
+          [globalFilterFields]="['issueType.name', 'id','status']" [rowsPerPageOptions]="[10, 25, 50, 100]"
           [tableStyle]="{'min-width': '60rem','font-size':'12px'}">
           <ng-template pTemplate="caption">
             <div class="flex">
