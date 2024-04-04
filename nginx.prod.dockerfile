@@ -2,14 +2,14 @@
 FROM node:latest as node
 LABEL name="Issue Analysis Extended"
 WORKDIR /app
-COPY package.json package.json
+COPY package.json package-lock.json ./
 RUN npm install
-RUN npm i @angular/cli
 COPY . .
-RUN ng build
+
+RUN npm run build
 
 # Stage 2 - move dist to runtime image
 FROM nginx:alpine
 VOLUME /var/cache/nginx
-COPY --from=node /app/dist /usr/share/nginx/html
+COPY --from=node /app/dist/jira-issue-analysis-frontend/browser /usr/share/nginx/html
 COPY ./config/nginx.conf /etc/nginx/conf.d/default.conf
