@@ -11,7 +11,7 @@ RUN ls -l /app/dist/jira-issue-analysis-frontend/browser
 
 # Stage 2 - move dist to runtime image
 FROM nginx:alpine
-COPY --from=builder /app/dist/jira-issue-analysis-frontend/browser/* /usr/share/nginx/html/
+COPY --from=node /app/dist/jira-issue-analysis-frontend/browser/* /usr/share/nginx/html/
 # COPY --from=node /app/dist/jira-issue-analysis-frontend/browser /usr/share/nginx/html
 # COPY --from=node /app/dist/jira-issue-analysis-frontend/browser/index.html /usr/share/nginx/html/
 # COPY --from=node /app/dist/jira-issue-analysis-frontend/browser/assets /usr/share/nginx/html/assets
