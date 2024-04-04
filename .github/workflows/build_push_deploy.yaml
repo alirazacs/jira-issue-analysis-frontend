@@ -9,7 +9,7 @@ on:
 env:
   ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
   ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
-  BACKEND_APP_IMAGE_NAME: 'issueanalysisregistery.azurecr.io/issue-analysis-extended-frontend:${{ github.sha }}'
+  FRONTEND_APP_IMAGE_NAME: 'issueanalysisregistery.azurecr.io/issue-analysis-extended-frontend:${{ github.sha }}'
 
 jobs:
   Build:
@@ -27,14 +27,14 @@ jobs:
         run: |
           ls ${{ github.workspace }}
 
-      # - name: Build and push issue-analysis-extended-frontend Docker image
-      #   env:
-      #     PROJECT_ROOT_PATH: 'WebApplication7'
-      #     DOCKERFILE_PATH: 'WebApplication7/Dockerfile'
-      #   run: |
-      #     docker build -f $DOCKERFILE_PATH --force-rm -t ${{ env.BACKEND_APP_IMAGE_NAME }} .
-      #     docker login issueanalysisregistery.azurecr.io -u ${{ env.ACR_USERNAME }} -p ${{ env.ACR_PASSWORD }}
-      #     docker push ${{ env.BACKEND_APP_IMAGE_NAME }}
+      - name: Build and push issue-analysis-extended-frontend Docker image
+        env:
+          PROJECT_ROOT_PATH: 'WebApplication7'
+          DOCKERFILE_PATH: 'nginx.prod.dockerfile'
+        run: |
+          docker build -f $DOCKERFILE_PATH --force-rm -t ${{ env.FRONTEND_APP_IMAGE_NAME }} .
+          docker login issueanalysisregistery.azurecr.io -u ${{ env.ACR_USERNAME }} -p ${{ env.ACR_PASSWORD }}
+          docker push ${{ env.FRONTEND_APP_IMAGE_NAME }}
 
   # Deploy:
   #   name: Deploy all built artifacts + dependencies to Container App instances
