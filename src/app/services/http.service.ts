@@ -7,7 +7,7 @@ import { ApiUrls } from "../apiUrls";
 export class HttpService{
 
 
-  url : string = "http://localhost:5084/";
+  url : string = "https://issue-analysis-extended-backend.greentree-e291ee11.westus2.azurecontainerapps.io/";
   constructor(private httpClient: HttpClient){}
 
   fetchIssuesAgainstFixVersion(fixVersion: string): Observable<any> {
