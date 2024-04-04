@@ -13,7 +13,7 @@ export const fetchAllReleases = createAction('[fetchAllReleases] Fetch All Relea
 export const setAllReleases = createAction('[setAllReleases] Set All Releases',props<{releases: Release[]}>());
 export const fetchReleasesIssues = createAction('[fetchReleasesIssues] Fetch ReleaseIssues', props<{release: Release}>());
 export const setReleaseIssues = createAction('[setReleaseIssues] Set Release Issues',props<{releaseIssues: Issue[]}>());
-
+export const clearAllIssuesState = createAction('[clearAllIssuesState] Clear Release Issues');
 //loading states
 export const setSourceDetailsLoadingState = createAction('[setSourceDetailsLoadingState] Source details loading state', props<{ loadingState: LoadingState }>());
 export const setSourceProjectsLoadingState = createAction('[setSourceProjectsLoadingState] Source projects loading state', props<{ loadingState: LoadingState }>());

@@ -7,7 +7,7 @@ import { ApiUrls } from "../apiUrls";
 export class HttpService{
 
 
-  url : string = "http://localhost:5054/";
+  url : string = "http://localhost:5084/";
   constructor(private httpClient: HttpClient){}
 
   fetchIssuesAgainstFixVersion(fixVersion: string): Observable<any> {

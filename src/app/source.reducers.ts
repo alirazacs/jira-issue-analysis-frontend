@@ -1,5 +1,5 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { postSourceDetails, setAllReleases, setReleaseIssues, setSourceDetails, setSourceProjectsAndCustomFields } from './app.actions';
+import { clearAllIssuesState, postSourceDetails, setAllReleases, setReleaseIssues, setSourceDetails, setSourceProjectsAndCustomFields } from './app.actions';
 import { SourceCredentials } from './models/ProjectSource';
 import { AppData, defaultAppDate } from './app-states';
 
@@ -29,6 +29,10 @@ const sourceCredentialsReducer = createReducer(
   on(setReleaseIssues, (state, { releaseIssues }) => ({
     ...state,
     issues: releaseIssues
+  })),
+  on(clearAllIssuesState, (state) => ({
+    ...state,
+    issues: []
   })),
 );
 

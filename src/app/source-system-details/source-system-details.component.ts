@@ -2,7 +2,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../app-states';
 import { CustomField, SourceCredentials, SourceFieldsResponse, SourceProject } from './../models/ProjectSource';
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
-import { fetchSourceDetails, fetchSourceProjectsAndCustomFields, postSourceDetails, postSourceProjectsAndCustomFields, setSourceDetailsLoadingState } from '../app.actions';
+import { clearAllIssuesState, fetchSourceDetails, fetchSourceProjectsAndCustomFields, postSourceDetails, postSourceProjectsAndCustomFields, setAddProjectsAndCustomFieldLoadingState, setSourceDetailsLoadingState } from '../app.actions';
 import { MessageService } from 'primeng/api';
 import { validateEmail, validateUrl } from '../services/helper-function';
 import { ToastService } from '../services/toast.service';
@@ -50,7 +50,7 @@ export class SourceSystemDetailsComponent implements OnInit {
     const isSourceConfigured$ = this.store.pipe(selectIsSourceConfigured);
 
     this.store.dispatch(fetchSourceDetails());
-
+    this.store.dispatch(clearAllIssuesState());
 
     this.subscription.add(combineLatest([sourceProjects$, sourceCredentials$, isSourceConfigured$])
     .subscribe(([sourceFields, sourceCredentials, isSourceConfigured])=>{
@@ -66,6 +66,7 @@ export class SourceSystemDetailsComponent implements OnInit {
         this.navigateToNextStep();
       }
       if (loadingState.addSourceAndCustomFieldsLoadingState == LoadingState.DONE) {
+        this.store.dispatch(setAddProjectsAndCustomFieldLoadingState({loadingState: LoadingState.PENDING}));
         this.router.navigate(['/issue-analysis']);
       }
     }));
