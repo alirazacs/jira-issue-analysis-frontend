@@ -13,7 +13,6 @@ RUN ls -l /app/dist/jira-issue-analysis-frontend/browser
 FROM nginx:alpine
 VOLUME /var/cache/nginx
 COPY --from=node /app/dist/jira-issue-analysis-frontend/browser /usr/share/nginx/html
-COPY /usr/share/nginx/html/jira-issue-analysis-frontend/browser/* /usr/share/nginx/html/
-# COPY --from=node /app/dist/jira-issue-analysis-frontend/browser/index.html /usr/share/nginx/html/
-# COPY --from=node /app/dist/jira-issue-analysis-frontend/browser/assets /usr/share/nginx/html/assets
+COPY --from=node /app/dist/jira-issue-analysis-frontend/browser/index.html /usr/share/nginx/html/
+COPY --from=node /app/dist/jira-issue-analysis-frontend/browser/assets /usr/share/nginx/html/assets
 COPY ./config/nginx.conf /etc/nginx/conf.d/default.conf
