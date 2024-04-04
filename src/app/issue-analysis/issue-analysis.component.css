@@ -10,7 +10,9 @@
 .cardDiv{
   border-radius: 25px;
 }
-
+.spinner ::ng-deep .p-progress-spinner-circle {
+  stroke: #ffffff !important;
+}
 .progress-spinner {
   position: fixed;
   z-index: 999;
