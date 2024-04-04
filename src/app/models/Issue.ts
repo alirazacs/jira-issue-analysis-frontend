@@ -30,4 +30,5 @@ export interface IssueSummary {
   numberOfInProgressIssues: number;
   numberOfResolvedIssues: number;
   totalStoryPoints: number;
+  issueUrl: string;
 }
