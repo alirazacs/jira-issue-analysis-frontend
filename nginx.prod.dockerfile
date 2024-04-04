@@ -7,9 +7,11 @@ RUN npm install
 COPY . .
 
 RUN npm run build
+RUN ls -l /app/dist/jira-issue-analysis-frontend/browser
 
 # Stage 2 - move dist to runtime image
 FROM nginx:alpine
 VOLUME /var/cache/nginx
+COPY --from=node /app/dist/jira-issue-analysis-frontend/browser /usr/share/nginx/html
 COPY --from=node /app/dist/jira-issue-analysis-frontend/browser /usr/share/nginx/html
 COPY ./config/nginx.conf /etc/nginx/conf.d/default.conf
