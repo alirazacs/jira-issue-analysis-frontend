@@ -4,6 +4,7 @@ LABEL name="Issue Analysis Extended"
 WORKDIR /app
 COPY package.json package.json
 RUN npm install
+RUN npm i @angular/cli
 COPY . .
 RUN ng build
 
