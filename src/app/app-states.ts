@@ -12,7 +12,8 @@ export interface LoadingStates{
   fetchCredentialsLoadingState: LoadingState,
   sourceProjectsAndCustomFieldsLoadingState: LoadingState,
   fetchReleaseLoadingState: LoadingState,
-  releaseIssuesLoadingState: LoadingState
+  releaseIssuesLoadingState: LoadingState,
+  addSourceAndCustomFieldsLoadingState: LoadingState
 }
 
 export interface AppData{

@@ -9,6 +9,7 @@ import { ToastService } from '../services/toast.service';
 import { LoadingState } from '../models/Issue';
 import { selectIsSourceConfigured, selectLoadingStates, selectSourceCredentials, selectSourceProjects } from '../app.selector';
 import { Subscription, combineLatest } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-source-system-details',
@@ -36,9 +37,10 @@ export class SourceSystemDetailsComponent implements OnInit {
     sourceURL: ''
   };
   isSourceConfigured: boolean = false;
+  addProjectsAndCustomFieldsLoadingState: LoadingState = LoadingState.PENDING;
 
   nextCallBackEvent: EventEmitter<any> | undefined;
-  constructor(private store: Store<AppState>, private toastService: ToastService) { }
+  constructor(private store: Store<AppState>, private toastService: ToastService, private router: Router) { }
 
   ngOnInit(): void {
 
@@ -62,6 +64,9 @@ export class SourceSystemDetailsComponent implements OnInit {
       if (loadingState.saveCredetialsLoadingState == LoadingState.DONE) {
         this.store.dispatch(fetchSourceProjectsAndCustomFields());
         this.navigateToNextStep();
+      }
+      if (loadingState.addSourceAndCustomFieldsLoadingState == LoadingState.DONE) {
+        this.router.navigate(['/issue-analysis']);
       }
     }));
   }
@@ -93,9 +98,9 @@ export class SourceSystemDetailsComponent implements OnInit {
   }
 
   isSourceDetailsChanged() {
-    return this.savedSourceFields.sourceProjects == this.sourceFields.sourceProjects &&
-      this.savedSourceFields.storyPointsCustomField == this.sourceFields.storyPointsCustomField &&
-      this.savedSourceFields.teamBoardCustomField == this.sourceFields.teamBoardCustomField && this.sourceFields.userProject !== null;
+    return this.savedSourceFields.storyPointsCustomField == this.sourceFields.storyPointsCustomField &&
+      this.savedSourceFields.teamBoardCustomField == this.sourceFields.teamBoardCustomField &&
+      (this.sourceFields.userProject == null || this.sourceFields.userProject == this.savedSourceFields.userProject);
   }
 
   submitSourceFields() {

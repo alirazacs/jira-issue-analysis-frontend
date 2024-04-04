@@ -8,7 +8,8 @@ export const initialState = {
   sourceProjectsAndCustomFieldsLoadingState: 0,
   fetchCredentialsLoadingState: 0,
   fetchReleaseLoadingState: 0,
-  releaseIssuesLoadingState: 0
+  releaseIssuesLoadingState: 0,
+  addSourceAndCustomFieldsLoadingState: 0
 };
 
 const loadingStatesReducer = createReducer(
@@ -18,6 +19,7 @@ const loadingStatesReducer = createReducer(
   on(action.setFetchSourceDetailsLoadingState, (state, { loadingState }) => ({...state, fetchCredentialsLoadingState: loadingState})),
   on(action.setAllFetchReleasesLoadingState, (state, { loadingState }) => ({...state, fetchReleaseLoadingState: loadingState})),
   on(action.setReleaseIssuesLoadingState, (state, { loadingState }) => ({...state, releaseIssuesLoadingState: loadingState})),
+  on(action.setAddProjectsAndCustomFieldLoadingState, (state, { loadingState }) => ({...state, addSourceAndCustomFieldsLoadingState: loadingState})),
 );
 
 export function loadingStatesReducers(state: LoadingStates | undefined, action: Action) {
