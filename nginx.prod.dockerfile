@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json package.json
 RUN npm install
 COPY . .
-RUN npm run build
+RUN ng build
 
 # Stage 2 - move dist to runtime image
 FROM nginx:alpine
